@@ -35,7 +35,7 @@ class JWTCheckerAuthenticator extends AbstractAuthenticator implements Authentic
 
     public function authenticate(Request $request): Passport
     {
-        $token = str_replace('Bearer','',getallheaders()['Authorization']);
+        $token = str_replace('Bearer ','',getallheaders()['Authorization']);
 
         try {
             $jwt = JWT::decode($token, new Key($this->appSecret, 'HS256'));

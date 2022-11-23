@@ -3,8 +3,8 @@ import Footer from "./Component/Footer";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import NeedAuth from "./Auth/NeedAuth";
 import Conversations from "./Component/Conversations/Conversations";
-import Inscription from "./Component/Inscritpion/Inscription";
 import Contacts from "./Component/Contacts/Contacts";
+import Authentification from "./Component/Authentification/Authentification";
 
 export default function App() {
     return (
@@ -20,7 +20,7 @@ export default function App() {
                                 <Contacts/>
                             </NeedAuth>
                         }/>
-                        <Route path='/inscription' element={<Inscription/>}/>
+                        <Route path='/authentification' element={<Authentification/>}/>
                         <Route path='/Conversations' element={
                             <NeedAuth>
                                 <Conversations/>

@@ -1,12 +1,25 @@
-import './inscription.scss'
+import './authentification.scss'
 import {useState} from "react";
+import {useDispatch} from "react-redux";
+import {useLocation, useNavigate} from "react-router-dom";
+import useRegister from "../../Hook/useRegister";
+import Login from "./Login";
+import {LoginAction} from "../../Action/LoginAction";
 
 export default function Register() {
+    const dispatch = useDispatch();
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    let from = location.state?.from?.pathname || '/'
+
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [password2, setPassword2] = useState('')
     const [error, setError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+
+    const register = useRegister()
 
     const submit = async (e) => {
         e.preventDefault()
@@ -16,24 +29,10 @@ export default function Register() {
             return
         }
 
-        const data = {
-            usernameData: username,
-            passwordData: password,
-            password2Data: password2
-        }
-        console.log(data)
-        // await fetch("http://localhost:5555/createUser.php", {
-        //     // crossDomain: true,
-        //     method: 'POST',
-        //     mode: 'cors',
-        //     headers: {
-        //         'Content-Type': 'application/x-www-form-urlencoded',
-        //         'Authorization': `Basic ${btoa(`${data.usernameData}:${data.passwordData}`)}`
-        //     },
-        //     body: JSON.stringify(data)
-        // })
-        //     .then(response => response.json())
-        //     .then(responseJSON => console.log(responseJSON))
+        register(username,password,password2)
+            .then(res => dispatch(LoginAction(res.jwt)))
+            .then(() => navigate(from, {replace: true}))
+
     }
 
     return (
