@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Security\JWTAuthenticator;
+use App\Service\CookieHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +19,7 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 class UserController extends AbstractController
 {
     #[Route('/login', name: 'app_login')]
-    public function login(string $appSecret): JsonResponse
+    public function login(CookieHelper $cookieHelper): JsonResponse
     {
         /** @var $user ?User */
         $user = $this->getUser();
@@ -29,16 +30,10 @@ class UserController extends AbstractController
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        $jwt = JWT::encode([
-            'username' => $user->getUsername(),
-            'id' => $user->getId()
-        ],
-            $appSecret,
-            'HS256');
-
         return $this->json([
-            'success' => 'Connexion réussie, bonjour ' . $user->getUsername() . '!',
-            'jwt' => $jwt
+            ['message' => 'Connexion réussie, bonjour ' . $user->getUsername() . '!'],
+            200,
+            ['set-cookie' => $cookieHelper->buildCookie($user)]
         ]);
     }
 
@@ -77,12 +72,12 @@ class UserController extends AbstractController
                 'HS256');
 
             return $this->json([
-                'success' => 'Inscription réussie, bienvenue ' . $user->getUsername() . '!',
+                'message' => 'Inscription réussie, bienvenue ' . $user->getUsername() . '!',
                 'jwt' => $jwt
             ]);
         }
         return $this->json([
-            'error' => 'Echec de l\'inscription, les mots de passes ne correspondent pas !'
+            'message' => 'Echec de l\'inscription, les mots de passes ne correspondent pas !'
         ]);
     }
 

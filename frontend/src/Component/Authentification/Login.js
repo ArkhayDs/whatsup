@@ -21,8 +21,9 @@ export default function Login() {
     const submit = (e) => {
         e.preventDefault()
         login(username,password)
-            .then(res => dispatch(LoginAction(res.jwt)))
-            .then(() => navigate(from, {replace: true}))
+            .then(res => console.log(res))
+            // .then(res => dispatch(LoginAction(res.jwt)))
+            // .then(() => navigate(from, {replace: true}))
     }
 
     return (
