@@ -31,9 +31,9 @@ class UserController extends AbstractController
         }
 
         return $this->json([
-            ['message' => 'Connexion réussie, bonjour ' . $user->getUsername() . '!'],
-            200,
-            ['set-cookie' => $cookieHelper->buildCookie($user)]
+            'message' => 'Connexion réussie, bonjour ' . $user->getUsername() . '!',
+            'status' => 200,
+            'set-cookie' => $cookieHelper->buildCookie($user)
         ]);
     }
 
