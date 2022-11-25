@@ -1,3 +1,6 @@
+import './Component/style.scss'
+import './Component/style-dark.scss'
+
 import Header from "./Component/Header";
 import Footer from "./Component/Footer";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
@@ -6,12 +9,15 @@ import Conversations from "./Component/Conversations/Conversations";
 import Contacts from "./Component/Contacts/Contacts";
 import Authentification from "./Component/Authentification/Authentification";
 import Chat from "./Component/Conversations/Chat";
+import {useSelector} from "react-redux";
 
 export default function App() {
+    const dark = useSelector(store => store.DarkModeReducer)
+
     return (
         <BrowserRouter>
-            <div className="App">
-                <header>
+            <div className={dark ? "App App-dark" : "App"}>
+                <header className="header-prince">
                     <Header/>
                 </header>
                 <main>

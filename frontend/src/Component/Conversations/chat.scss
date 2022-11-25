@@ -1,74 +1,30 @@
-
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  color: black;
-  text-decoration: none;
-  vertical-align: baseline;
-}
-
-body {
-  line-height: 1;
-  background-color: #DCDCDB;
-}
-
-ol, ul {
-  list-style: none;
-}
-
-blockquote, q {
-  quotes: none;
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #AAAAAA;
-}
-
-
 .chatContainer {
   position: fixed;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100vw;
-  height: 100vh;
+  width: 95%;
+  height: 85%;
   display: flex;
+
 
   .contacts {
     width: 20%;
     height: 100%;
     background-color: #FFFFFF;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 
     .contact-header {
       display: flex;
       align-items: center;
       gap: 10px;
       padding: 0 25px;
-      height: 10vh;
+      height: 100px;
       border-bottom: 1px solid;
       background-color: #F0F2F5;
+      order: 1;
 
       .contact-header-button {
         display: flex;
@@ -77,9 +33,10 @@ table {
     }
 
     .contact-view {
-      overflow: scroll;
+      order: 2;
+      overflow-y: scroll;
       padding: 10px;
-      height: 90vh;
+      flex: 1 1 0;
 
       li {
         margin-bottom: 20px;
@@ -92,6 +49,7 @@ table {
   .chat {
     height: 100%;
     width: 80%;
+    position: relative;
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
@@ -103,9 +61,10 @@ table {
       justify-content: center;
       gap: 10px;
       padding: 0 25px;
-      height: 10vh;
+      height: 100px;
       border-bottom: 1px solid;
       background-color: #F0F2F5;
+      order: 1;
 
       .chat-with {
         color: black;
@@ -122,7 +81,8 @@ table {
       padding: 2.5vh 20px;
       border-bottom: 2px solid white;
       overflow-y: scroll;
-      height: 75vh;
+      flex: 1 1 0;
+      order: 2;
 
       .message-data {
         margin-bottom: 15px;
@@ -188,11 +148,12 @@ table {
       align-items: end;
       background-color: #F0F2F5;
       bottom: 0;
+      order: 3;
 
       span {
         border: solid black 1px;
-        min-height: 2.5vh;
-        max-height: 6vh;
+        min-height: 20px;
+        max-height: 100px;
         overflow-Y: scroll;
         width: 80%;
         padding: 10px 20px;
@@ -215,7 +176,5 @@ table {
         }
       }
     }
-
-
   }
 }

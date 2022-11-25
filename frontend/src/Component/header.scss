@@ -1,4 +1,5 @@
 .nav-header {
+  height: 100px;
   padding: 20px 10px;
   display: flex;
   justify-content: space-around;
@@ -6,12 +7,26 @@
   box-shadow: 1px 1px 0 0 #8AB8D0;
   background-color: #ffffff;
 
+  button {
+    border: none;
+    background: none;
+    font-size: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   ul {
     display: flex;
     justify-content: space-around;
     align-items: center;
     width: 80%;
   }
+
   h1 {
     color: #8AB8D0;
   }

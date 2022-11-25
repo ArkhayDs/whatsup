@@ -1,0 +1,80 @@
+.fond-black {
+  background-color: #2a2a2a;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: -1;
+}
+.chatContainer-dark {
+  div, span, applet, object, iframe,
+  h1, h2, h3, h4, h5, h6, p, a,ul, li{
+    color: white;
+  }
+
+  .contacts {
+    background-color: #343434;
+
+    .contact-header {
+      background-color: #1F2223;
+    }
+  }
+
+    .chat {
+      background-color: #343434;
+
+      .chat-header {
+        background-color: #1F2223;
+
+        .chat-with {
+          color: #ffffff;
+        }
+
+        .chat-num-messages {
+          color: #346881FF;
+        }
+      }
+
+      .chat-history {
+        border-bottom: 2px solid black;
+        .message-data-time {
+          color: lighten(#ffffff, 8%);
+        }
+        .message {
+          &:after {
+            border-bottom-color: #1F2223;
+          }
+        }
+        .other-message {
+          .message-text {
+            background: #1F2223;
+          }
+        }
+
+        .my-message {
+          .message-text {
+            background: #346881FF;
+
+            &:after {
+              border-bottom-color: #346881FF;
+            }
+          }
+        }
+      }
+
+      .chat-message {
+        background-color: #1F2223;
+
+        span {
+          border: solid #ffffff 1px;
+        }
+
+        button {
+          color: #346881FF;
+
+          &:hover {
+            color: darken(#346881FF, 7%);
+          }
+        }
+      }
+    }
+}
