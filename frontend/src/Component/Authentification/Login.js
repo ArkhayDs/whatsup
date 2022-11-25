@@ -1,6 +1,5 @@
 import './authentification.scss'
 import {useState} from "react";
-import {AxiosInstance} from "../../Axios/AxiosInstance";
 import {useDispatch} from "react-redux";
 import useLogin from "../../Hook/useLogin";
 import {LoginAction} from "../../Action/LoginAction";
@@ -21,9 +20,8 @@ export default function Login() {
     const submit = (e) => {
         e.preventDefault()
         login(username,password)
-            .then(res => console.log(res))
-            // .then(res => dispatch(LoginAction(res.jwt)))
-            // .then(() => navigate(from, {replace: true}))
+            .then(res => dispatch(LoginAction(res.jwt)))
+            .then(() => navigate(from, {replace: true}))
     }
 
     return (

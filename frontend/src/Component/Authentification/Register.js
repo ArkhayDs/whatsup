@@ -31,15 +31,16 @@ export default function Register() {
                 switch (status) {
                     case 200:
                         dispatch(LoginAction(res.jwt))
+                        navigate(from, {replace: true})
                         break
-                    case 405:
+                    case 422:
+                        setMessage(res.message)
                         setError(true)
                         break
                     default:
                         break
                 }
             })
-            .then(() => navigate(from, {replace: true}))
 
     }
 

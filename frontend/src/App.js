@@ -6,8 +6,22 @@ import Conversations from "./Component/Conversations/Conversations";
 import Contacts from "./Component/Contacts/Contacts";
 import Authentification from "./Component/Authentification/Authentification";
 import Chat from "./Component/Conversations/Chat";
+import {useDispatch} from "react-redux";
+import useGetCookies from "./Hook/useGetCookies";
+import {useEffect} from "react";
+import {LoginAction} from "./Action/LoginAction";
 
 export default function App() {
+    const dispatch = useDispatch()
+    const cookies = useGetCookies()
+
+
+    useEffect(() => {
+        if (Object.keys(cookies).includes('WhatsUpJWT')) {
+            dispatch(LoginAction(cookies.WhatsUpJWT))
+        }
+    }, [])
+
     return (
         <BrowserRouter>
             <div className="App">

@@ -1,16 +1,20 @@
 import useGetUserList from "../../Hook/useGetUserList";
 import {useEffect, useState} from "react";
+import {useSelector} from "react-redux";
 
 export default function Contacts() {
     const getUserList = useGetUserList()
+    const currentUser = useSelector(store => store.SigninReducer)
 
     const [userList, setUserList] = useState([])
 
     useEffect(() => {
-        getUserList().then(data => {
-            setUserList(data.users)
-        })
-    },[])
+        if (currentUser) {
+            getUserList().then(data => {
+                setUserList(data.users)
+            })
+        }
+    },[currentUser])
 
     return (
         <div>
