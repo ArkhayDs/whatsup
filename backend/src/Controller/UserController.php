@@ -73,11 +73,13 @@ class UserController extends AbstractController
 
             return $this->json([
                 'message' => 'Inscription réussie, bienvenue ' . $user->getUsername() . '!',
+                'status' => 200,
                 'jwt' => $jwt
             ]);
         }
         return $this->json([
-            'message' => 'Echec de l\'inscription, les mots de passes ne correspondent pas !'
+            'message' => 'Echec de l\'inscription, les mots de passes ne correspondent pas !',
+            'status' => 405
         ]);
     }
 

@@ -17,27 +17,35 @@ export default function Register() {
     const [password, setPassword] = useState('')
     const [password2, setPassword2] = useState('')
     const [error, setError] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
+    const [status, setStatus] = useState(false)
+    const [message, setMessage] = useState('')
 
     const register = useRegister()
 
     const submit = async (e) => {
         e.preventDefault()
-        if (password !== password2) {
-            setError(true)
-            setErrorMessage("Il vous faut deux mots de passe identique.")
-            return
-        }
 
         register(username,password,password2)
-            .then(res => dispatch(LoginAction(res.jwt)))
+            .then(res => {
+                setStatus(res.status)
+                switch (status) {
+                    case 200:
+                        dispatch(LoginAction(res.jwt))
+                        break
+                    case 405:
+                        setError(true)
+                        break
+                    default:
+                        break
+                }
+            })
             .then(() => navigate(from, {replace: true}))
 
     }
 
     return (
         <>
-            {error ? <span className="error_message">{errorMessage}</span> : ""}
+            {error ? <span className="error_message">{message}</span> : ""}
             <form className="form_container">
                 <div className="input_container">
                     <input type="text" id="name" className="input_input" placeholder=" "
