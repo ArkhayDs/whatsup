@@ -13,5 +13,6 @@ export default function useLogin() {
                 password: password
             })
         })
+            .then(res => res.data)
     }
 }

@@ -3,6 +3,7 @@ import {useSelector} from "react-redux";
 
 export default function useGetUserList() {
     const currentUser = useSelector(store => store.SigninReducer)
+
     return () => {
         return AxiosInstance({
             url: '/',
