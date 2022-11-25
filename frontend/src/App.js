@@ -5,6 +5,7 @@ import NeedAuth from "./Auth/NeedAuth";
 import Conversations from "./Component/Conversations/Conversations";
 import Contacts from "./Component/Contacts/Contacts";
 import Authentification from "./Component/Authentification/Authentification";
+import Chat from "./Component/Conversations/Chat";
 
 export default function App() {
     return (
@@ -24,6 +25,11 @@ export default function App() {
                         <Route path='/Conversations' element={
                             <NeedAuth>
                                 <Conversations/>
+                            </NeedAuth>
+                        }/>
+                        <Route path='/Conversations/id' element={
+                            <NeedAuth>
+                                <Chat/>
                             </NeedAuth>
                         }/>
                     </Routes>

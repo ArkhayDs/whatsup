@@ -6,7 +6,7 @@
   align-items: center;
 
   .active {
-    color: #FFD400;
+    color: #8AB8D0;
   }
   h1:hover {
     cursor: pointer;
@@ -15,7 +15,7 @@
 
 .error_message {
   background-color: #B0413E;
-  color: white;
+  color: #F0F2F5;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -50,14 +50,15 @@
       font-size: inherit;
       outline: none;
       padding: 0 5%;
+      background-color: #F0F2F5;
     }
 
     .input_input:focus {
-      border-color: #FFD400;
+      border-color: #8AB8D0;
     }
 
     .input_input:hover {
-      border-color: #FFD400;
+      border-color: #8AB8D0;
     }
 
     .input_label {
@@ -66,7 +67,7 @@
       top: 1rem;
       padding: 0 0.5rem;
       color: black;
-      /*color: #FFD400;*/
+      /*color: #8AB8D0;*/
       cursor: text;
       transition: top 0.2s ease-in, left 0.2s ease-in, font-size 0.2s ease-in;
       background: none;
@@ -78,14 +79,14 @@
       font-size: 0.8rem;
       left: 1.3rem;
       padding: 0 5px;
-      border: 2px #FFD400 solid;
-      background-color: #FFD400;
+      border: 2px #8AB8D0 solid;
+      background-color: #8AB8D0;
       border-radius: 5px;
     }
   }
 
   .buttonHover {
-    background-color: #F5EE9E;
+    background-color: #F0F2F5;
     color: black;
     border: none;
     margin: 10px 5px;
@@ -93,15 +94,15 @@
     border-radius: 5px;
     font-size: 15px;
     transition: .5s;
-    box-shadow: 6px 6px 0 0 #FFD400;
+    box-shadow: 6px 6px 0 0 #8AB8D0;
 
 
   }
 
   .buttonHover:hover {
     cursor: pointer;
-    background-color: #FFD400;
-    box-shadow: -6px -6px 0 0 #F5EE9E;
+    background-color: #8AB8D0;
+    box-shadow: -6px -6px 0 0 #F0F2F5;
   }
 
 
