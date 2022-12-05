@@ -77,12 +77,14 @@ class UserController extends AbstractController
                 'HS256');
 
             return $this->json([
-                'success' => 'Inscription réussie, bienvenue ' . $user->getUsername() . '!',
-                'jwt' => $jwt
+                'message' => 'Inscription réussie, bienvenue ' . $user->getUsername() . '!',
+                'jwt' => $jwt,
+                'status' => 'success'
             ]);
         }
         return $this->json([
-            'error' => 'Echec de l\'inscription, les mots de passes ne correspondent pas !'
+            'message' => 'Echec de l\'inscription, les mots de passes ne correspondent pas !',
+            'status' => 'error'
         ]);
     }
 

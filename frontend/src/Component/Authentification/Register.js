@@ -23,15 +23,17 @@ export default function Register() {
 
     const submit = async (e) => {
         e.preventDefault()
-        if (password !== password2) {
-            setError(true)
-            setErrorMessage("Il vous faut deux mots de passe identique.")
-            return
-        }
 
         register(username,password,password2)
-            .then(res => dispatch(LoginAction(res.jwt)))
-            .then(() => navigate(from, {replace: true}))
+            .then(res => {
+                if ( res.status === "error" ) {
+                    setErrorMessage(res.message)
+                    setError(true)
+                } else {
+                    dispatch(LoginAction(res.jwt))
+                    navigate(from, {replace: true})
+                }
+            } )
 
     }
 
