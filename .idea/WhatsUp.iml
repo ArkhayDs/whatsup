@@ -80,6 +80,8 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/filesystem" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/finder" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/flex" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/firebase/php-jwt" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/serializer" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

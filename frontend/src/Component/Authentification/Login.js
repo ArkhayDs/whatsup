@@ -1,6 +1,5 @@
 import './authentification.scss'
 import {useState} from "react";
-import {AxiosInstance} from "../../Axios/AxiosInstance";
 import {useDispatch} from "react-redux";
 import useLogin from "../../Hook/useLogin";
 import {LoginAction} from "../../Action/LoginAction";
@@ -15,14 +14,18 @@ export default function Login() {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [loding, setLoding] = useState(false)
 
     const login = useLogin()
 
     const submit = (e) => {
+        setLoding(true)
         e.preventDefault()
         login(username,password)
             .then(res => dispatch(LoginAction(res.jwt)))
+            .then(() =>setLoding(false))
             .then(() => navigate(from, {replace: true}))
+
     }
 
     return (
@@ -39,9 +42,16 @@ export default function Login() {
                 <label htmlFor="password" className="input_label">Mot de passe</label>
             </div>
             <br/>
-            <button className="buttonHover"  type="submit" onClick={(e) => submit(e)}>
-                Connexion
-            </button>
+            {loding ?
+                <div className="indeterminate-progress-bar">
+                    <div className="indeterminate-progress-bar__progress"> </div>
+                </div>
+
+                :
+                <button className="buttonHover"  type="submit" onClick={(e) => submit(e)}>
+                    Connexion
+                </button>
+            }
         </form>
     )
 }

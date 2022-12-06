@@ -17,29 +17,43 @@ export default function Register() {
     const [password, setPassword] = useState('')
     const [password2, setPassword2] = useState('')
     const [error, setError] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
+    const [status, setStatus] = useState(false)
+    const [message, setMessage] = useState('')
+    const [loding, setLoding] = useState(false)
 
     const register = useRegister()
 
+
     const submit = async (e) => {
         e.preventDefault()
+        setLoding(true)
 
         register(username,password,password2)
             .then(res => {
-                if ( res.status === "error" ) {
-                    setErrorMessage(res.message)
-                    setError(true)
-                } else {
-                    dispatch(LoginAction(res.jwt))
-                    navigate(from, {replace: true})
+                setStatus(res.status)
+                switch (status) {
+                    case 200:
+                        dispatch(LoginAction(res.jwt))
+                        navigate(from, {replace: true})
+                        setLoding(false)
+                        break
+                    case 422:
+                        setMessage(res.message)
+                        setError(true)
+                        setLoding(false)
+                        break
+
+                    default:
+                        setLoding(false)
+                        break
                 }
-            } )
+            })
 
     }
 
     return (
         <>
-            {error ? <span className="error_message">{errorMessage}</span> : ""}
+            {error ? <span className="error_message">{message}</span> : ""}
             <form className="form_container">
                 <div className="input_container">
                     <input type="text" id="name" className="input_input" placeholder=" "
@@ -65,9 +79,17 @@ export default function Register() {
                     <label htmlFor="password2" className="input_label">Confirmer le mot de passe</label>
                 </div>
                 <br/>
-                <button className="buttonHover" type='submit' onClick={(e) => submit(e)}>
-                    Inscription
-                </button>
+                {loding ?
+                    <div className="indeterminate-progress-bar">
+                        <div className="indeterminate-progress-bar__progress"> </div>
+                    </div>
+
+                    :
+                    <button className="buttonHover" type='submit' onClick={(e) => submit(e)}>
+                        Inscription
+                    </button>
+                }
+
             </form>
         </>
     )

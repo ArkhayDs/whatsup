@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Security\JWTAuthenticator;
+use App\Service\CookieHelper;
+use App\Service\JWTHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +20,7 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 class UserController extends AbstractController
 {
     #[Route('/login', name: 'app_login')]
-    public function login(string $appSecret): JsonResponse
+    public function login(CookieHelper $cookieHelper, JWTHelper $JWTHelper): JsonResponse
     {
         /** @var $user ?User */
         $user = $this->getUser();
@@ -29,17 +31,16 @@ class UserController extends AbstractController
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        $jwt = JWT::encode([
-            'username' => $user->getUsername(),
-            'id' => $user->getId()
-        ],
-            $appSecret,
-            'HS256');
+        $jwt = $JWTHelper->createJWT($user);
 
-        return $this->json([
-            'success' => 'Connexion réussie, bonjour ' . $user->getUsername() . '!',
-            'jwt' => $jwt
-        ]);
+        return $this->json(
+            [
+                'message' => 'Connexion réussie, bonjour ' . $user->getUsername() . '!',
+                'jwt' => $jwt
+            ],
+            200,
+            ['set-cookie' => $cookieHelper->buildCookie($jwt,"WhatsUpJWT","30 minutes")]
+        );
     }
 
     #[Route('/register', name: 'app_register', methods: 'POST')]
@@ -48,13 +49,12 @@ class UserController extends AbstractController
                              UserPasswordHasherInterface    $hasher,
                              UserAuthenticatorInterface     $authenticator,
                              JWTAuthenticator               $JWTAuthenticator,
-                             string                         $appSecret): JsonResponse
+                             CookieHelper                   $cookieHelper,
+                             JWTHelper                      $JWTHelper): JsonResponse
     {
         if (!empty($request->request->get('password'))
             && !empty($request->request->get('password2'))
-            && $request->request->get('password') === $request->request->get('password2')
-//                && $this->isCsrfTokenValid('register_form', $request->request->get('csrf'))
-        ) {
+            && $request->request->get('password') === $request->request->get('password2')) {
 
             $user = new User();
             $user->setUsername($request->request->get('username'))
@@ -69,22 +69,20 @@ class UserController extends AbstractController
                 $request
             );
 
-            $jwt = JWT::encode([
-                'username' => $user->getUsername(),
-                'id' => $user->getId()
-            ],
-                $appSecret,
-                'HS256');
+            $jwt = $JWTHelper->createJWT($user);
 
-            return $this->json([
-                'message' => 'Inscription réussie, bienvenue ' . $user->getUsername() . '!',
-                'jwt' => $jwt,
-                'status' => 'success'
-            ]);
+            return $this->json(
+                [
+                    'message' => 'Inscription réussie, bonjour ' . $user->getUsername() . '!',
+                    'jwt' => $jwt
+                ],
+                200,
+                ['set-cookie' => $cookieHelper->buildCookie($jwt,"WhatsUpJWT","30 minutes")]
+            );
         }
         return $this->json([
             'message' => 'Echec de l\'inscription, les mots de passes ne correspondent pas !',
-            'status' => 'error'
+            'status' => 422
         ]);
     }
 
