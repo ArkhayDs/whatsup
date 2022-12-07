@@ -19,11 +19,13 @@ export default function Register() {
     const [error, setError] = useState(false)
     const [status, setStatus] = useState(false)
     const [message, setMessage] = useState('')
+    const [loding, setLoding] = useState(false)
 
     const register = useRegister()
 
     const submit = (e) => {
         e.preventDefault()
+        setLoding(true)
 
         register(username,password,password2)
             .then(res => {
@@ -32,12 +34,16 @@ export default function Register() {
                     case 200:
                         dispatch(LoginAction(res.jwt))
                         navigate(from, {replace: true})
+                        setLoding(false)
                         break
                     case 422:
                         setMessage(res.message)
                         setError(true)
+                        setLoding(false)
                         break
+
                     default:
+                        setLoding(false)
                         break
                 }
             })
@@ -72,9 +78,17 @@ export default function Register() {
                     <label htmlFor="password2" className="input_label">Confirmer le mot de passe</label>
                 </div>
                 <br/>
-                <button className="buttonHover" type='submit' onClick={(e) => submit(e)}>
-                    Inscription
-                </button>
+                {loding ?
+                    <div className="indeterminate-progress-bar">
+                        <div className="indeterminate-progress-bar__progress"> </div>
+                    </div>
+
+                    :
+                    <button className="buttonHover" type='submit' onClick={(e) => submit(e)}>
+                        Inscription
+                    </button>
+                }
+
             </form>
         </>
     )

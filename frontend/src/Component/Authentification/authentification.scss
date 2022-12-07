@@ -1,11 +1,22 @@
 
 .authentification-container {
+  width: 400px;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%);
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: column;
+
   .nav-authentification {
     padding: 20px 10px;
     margin-bottom: 50px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+    width: 100%;
 
     .active {
       color: #8AB8D0;
@@ -24,6 +35,7 @@
     align-items: center;
     margin-bottom: 25px;
     padding: 10px 0;
+    text-align: center;
   }
 
 
@@ -33,10 +45,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
 
     .input_container {
       position: relative;
-      width: 20rem;
+      width: 100%;
       height: 3rem;
       margin: 15px 0;
 
@@ -108,5 +121,4 @@
     }
   }
 }
-
 
