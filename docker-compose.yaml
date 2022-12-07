@@ -13,16 +13,25 @@ services:
     networks:
       - dev
 
-  websocket:
-    image: php:8.1.2-cli
-    container_name: websocket_docker
-    env_file:
-      - './websocket/.env'
-    volumes:
-      - ./websocket:/var/www/html
+  mercure:
+    image: dunglas/mercure
+    restart: unless-stopped
+    environment:
+      # Uncomment the following line to disable HTTPS
+      SERVER_NAME: ':80'
+      MERCURE_PUBLISHER_JWT_KEY: 'lM0fBl9nDL69nxRkm43lM0fBl9nDL69nxRkm43lM0fBl9nDL69nxRkm43'
+      MERCURE_SUBSCRIBER_JWT_KEY: 'lM0fBl9nDL69nxRkm43lM0fBl9nDL69nxRkm43lM0fBl9nDL69nxRkm43'
+      MERCURE_EXTRA_DIRECTIVES:
+          anonymous
+          cors_origins "*"
+    # Uncomment the following line to enable the development mode
+#    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
     ports:
-      - "9090:9090"
-    command: php /var/www/html/src/wamp-server.php
+      - "1234:80"
+      - "443:443"
+#    volumes:
+#      - caddy_data:/data
+#      - caddy_config:/config
 
   db:
     image: mariadb
@@ -52,4 +61,6 @@ networks:
   dev:
 
 volumes:
+#  caddy_data:
+#  caddy_config:
   db-data:

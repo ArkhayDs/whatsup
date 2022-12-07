@@ -23,8 +23,7 @@ export default function Register() {
 
     const register = useRegister()
 
-
-    const submit = async (e) => {
+    const submit = (e) => {
         e.preventDefault()
         setLoding(true)
 
