@@ -19,12 +19,12 @@ use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface
 
 class JWTCheckerAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
 {
-    private string $appSecret;
+    private string $mercureSecret;
     private UrlGeneratorInterface $urlGenerator;
 
-    public function __construct(string $appSecret, UrlGeneratorInterface $urlGenerator)
+    public function __construct(string $mercureSecret, UrlGeneratorInterface $urlGenerator)
     {
-        $this->appSecret = $appSecret;
+        $this->mercureSecret = $mercureSecret;
         $this->urlGenerator = $urlGenerator;
     }
 
@@ -38,10 +38,10 @@ class JWTCheckerAuthenticator extends AbstractAuthenticator implements Authentic
         $token = str_replace('Bearer ','',getallheaders()['Authorization']);
 
         try {
-            $jwt = JWT::decode($token, new Key($this->appSecret, 'HS256'));
+            $jwt = JWT::decode($token, new Key($this->mercureSecret, 'HS256'));
 
             return new SelfValidatingPassport(
-                new UserBadge($jwt->username)
+                new UserBadge($jwt->mercure->payload->username)
             );
         } catch (\Exception $exception) {
             throw new CustomUserMessageAuthenticationException('JWT invalide');

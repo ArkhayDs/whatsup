@@ -2,24 +2,38 @@
 
 namespace App\Service;
 
+use App\Entity\User;
 use Exception;
 use Symfony\Component\HttpFoundation\Cookie;
 
+/**
+ *
+ */
 class CookieHelper
 {
+    private JWTHelper $JWTHelper;
+
+    /**
+     * @param JWTHelper $JWTHelper
+     */
+    public function __construct(JWTHelper $JWTHelper)
+    {
+        $this->JWTHelper = $JWTHelper;
+    }
+
     /**
      * @throws Exception
      */
-    public function buildCookie(string $content, string $name, string $duration): string
+    public function buildCookie(User $user): string
     {
         return Cookie::create(
-            $name,
-            $content,
-            new \DateTime($duration),
-            '',
+            'mercureAuthorization',
+            $this->JWTHelper->createJWT($user),
+            new \DateTime("10 minutes"),
+            '/.well-known/mercure',
             'localhost',
-            false,
-            false,
+            true,
+            true,
             false,
             Cookie::SAMESITE_STRICT
         );

@@ -6,7 +6,7 @@ export default function NeedAuth(props) {
     const cookies = useGetCookies()
     let location = useLocation();
     const currentUser = useSelector(store => store.SigninReducer);
-    if (currentUser || Object.keys(cookies).includes('WhatsUpJWT')) {
+    if (currentUser || Object.keys(cookies).includes('mercureAuthorization')) {
         return props.children;
     } else {
         return <Navigate to='/authentification' state={{from: location}}/>

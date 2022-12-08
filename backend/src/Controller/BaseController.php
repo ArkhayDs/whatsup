@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\CookieHelper;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,16 +30,16 @@ class BaseController extends AbstractController
 //        ], 200, [], ['groups' => 'usable']);
     }
 
-    #[Route('/mercure-publish', name: 'app_mercure_publish')]
-    public function publish(HubInterface $hub): JsonResponse
-    {
-        $update = new Update(
-            ["https://example.com/my-private-topic"],
-            json_encode(["message"=>"Hello Monde from Symfony !"])
-        );
-
-        $hub->publish($update);
-
-        return $this->json(["message" => "Data published"]);
-    }
+//    /**
+//     * @throws Exception
+//     */
+//    #[Route('/mercure-login', name: 'app_mercure_login')]
+//    public function getCookie(CookieHelper $cookieHelper): JsonResponse
+//    {
+//        return $this->json(
+//            ["message" => "You're all set"],
+//            200,
+//            ['set-cookie' => $cookieHelper->buildCookie()]
+//        );
+//    }
 }
