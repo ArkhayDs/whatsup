@@ -13,7 +13,7 @@ use RuntimeException;
  * is responsible for accepting plaintext connections on unix domain sockets.
  *
  * ```php
- * $server = new React\Socket\UnixServer('unix:///tmp/app.sock');
+ * $server = new React\Socket\UnixServer('unix:///tmp/appReact.sock');
  * ```
  *
  * See also the `ServerInterface` for more details.
@@ -35,7 +35,7 @@ final class UnixServer extends EventEmitter implements ServerInterface
      * for more details.
      *
      * ```php
-     * $server = new React\Socket\UnixServer('unix:///tmp/app.sock');
+     * $server = new React\Socket\UnixServer('unix:///tmp/appReact.sock');
      * ```
      *
      * This class takes an optional `LoopInterface|null $loop` parameter that can be used to

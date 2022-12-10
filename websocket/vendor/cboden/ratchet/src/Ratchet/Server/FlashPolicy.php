@@ -4,7 +4,7 @@ use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
 /**
- * An app to go on a server stack to pass a policy file to a Flash socket
+ * An appReact to go on a server stack to pass a policy file to a Flash socket
  * Useful if you're using Flash as a WebSocket polyfill on IE
  * Be sure to run your server instance on port 843
  * By default this lets accepts everything, make sure you tighten the rules up for production

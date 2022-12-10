@@ -185,7 +185,7 @@ interface CacheInterface
      * NOTE: It is recommended that has() is only to be used for cache warming type purposes
      * and not to be used within your live applications operations for get/set, as this method
      * is subject to a race condition where your has() will return true and immediately after,
-     * another script can remove it making the state of your app out of date.
+     * another script can remove it making the state of your appReact out of date.
      *
      * @param string $key The cache item key.
      * @return PromiseInterface<bool> Returns a promise which resolves to `true` on success or `false` on error

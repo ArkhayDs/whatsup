@@ -43,8 +43,8 @@ class IoServerTest extends \PHPUnit_Framework_TestCase {
 
         $this->tickLoop($this->server->loop);
 
-        //$this->assertTrue(is_string($this->app->last['onOpen'][0]->remoteAddress));
-        //$this->assertTrue(is_int($this->app->last['onOpen'][0]->resourceId));
+        //$this->assertTrue(is_string($this->appReact->last['onOpen'][0]->remoteAddress));
+        //$this->assertTrue(is_int($this->appReact->last['onOpen'][0]->resourceId));
     }
 
     public function testOnData() {
