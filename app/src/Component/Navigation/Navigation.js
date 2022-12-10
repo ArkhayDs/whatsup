@@ -8,6 +8,7 @@ import PopupMenu from "../PopupMenu/PopupMenu";
 import Chat from "../Conversations/Chat";
 import Contacts from "../Contacts/Contacts";
 import SyncQrCodeScan from "../QrCode/SyncQrCodeScan";
+import Authentification from "../Authentification/Authentification";
 
 const ChatStack = createNativeStackNavigator();
 
@@ -54,7 +55,15 @@ export default function Navigation() {
                 options={{
                     animationTypeForReplace: "pop",
                     animation: 'flip',
-                    // headerShown: false
+                }}
+            />
+
+            <ChatStack.Screen
+                name="Authentification"
+                component={Authentification}
+                options={{
+                    animationTypeForReplace: "pop",
+                    animation: 'flip',
                 }}
             />
         </ChatStack.Navigator>

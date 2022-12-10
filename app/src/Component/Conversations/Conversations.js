@@ -5,7 +5,7 @@ import {
     View,
     SafeAreaView,
     ScrollView,
-    TouchableOpacity,
+    TouchableOpacity, Dimensions,
 } from 'react-native';
 import {AntDesign, Entypo} from "@expo/vector-icons";
 
@@ -33,25 +33,61 @@ export default function Conversations({navigation}) {
                 <View>
                     {convList ?
                         <View>
-                            {convList.map((user) => {
-                                return (
-                                    <TouchableOpacity
-                                        className="contact_button"
-                                        key={user.id}
-                                        onPress={() =>
-                                            navigation.navigate('Chat', {
-                                                itemId: user.id,
-                                                name: user.username,
-                                                navigation: navigation,
-                                            })
-                                        }
-                                    >
-                                        <View>
-                                            <Text> </Text>
-                                            <Text>{user.username}</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                )
+                            {convList.map((user, i) => {
+                                if (i%2 === 0) {
+                                    return (
+
+                                        <TouchableOpacity
+                                            style={{
+                                                width: Dimensions.get('window').width,
+                                                height: 50,
+                                                paddingLeft:20,
+                                                disable:"flex",
+                                                justifyContent:"center",
+                                                backgroundColor:"#e3e3e3",
+                                            }}
+                                            key={user.id}
+                                            onPress={() =>
+                                                navigation.navigate('Chat', {
+                                                    itemId: user.id,
+                                                    name: user.username,
+                                                    navigation: navigation,
+                                                })
+                                            }
+                                        >
+                                            <View>
+                                                <Text>{user.username}</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    )
+                                } else {
+                                    return (
+
+                                        <TouchableOpacity
+                                            style={{
+                                                width: Dimensions.get('window').width,
+                                                height: 50,
+                                                paddingLeft:20,
+                                                disable:"flex",
+                                                justifyContent:"center",
+                                                backgroundColor:"#ffffff",
+                                            }}
+                                            key={user.id}
+                                            onPress={() =>
+                                                navigation.navigate('Chat', {
+                                                    itemId: user.id,
+                                                    name: user.username,
+                                                    navigation: navigation,
+                                                })
+                                            }
+                                        >
+                                            <View>
+                                                <Text>{user.username}</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    )
+                                }
+
                             })}
                         </View>
                         :

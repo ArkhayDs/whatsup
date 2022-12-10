@@ -8,7 +8,7 @@ import {
 import {Entypo} from "@expo/vector-icons";
 import SafeAreaView from "react-native/Libraries/Components/SafeAreaView/SafeAreaView";
 import {Text} from "react-native-paper";
-import { AntDesign } from '@expo/vector-icons';
+import {AntDesign} from '@expo/vector-icons';
 
 export default function PopupMenu({navigation}) {
     const [visible, setVisible] = useState(false)
@@ -21,58 +21,66 @@ export default function PopupMenu({navigation}) {
             icon: "qrcode"
         },
         {
+            title: 'Authentification',
+            action: () => navigation.navigate('Authentification'),
+            icon: "poweroff"
+        },
+        {
             title: 'Déconnexion',
             action: () => console.log('Déconnexion'),
             icon: 'logout'
         },
     ]
 
-    function resizeBox(to){
+    function resizeBox(to) {
         to === 1 && setVisible(true)
         Animated.timing(scale, {
-            toValue:to,
-            useNativeDriver:true,
-            duration:200,
-            easing:Easing.linear,
+            toValue: to,
+            useNativeDriver: true,
+            duration: 100,
+            easing: Easing.linear,
         }).start(() => to === 0 && setVisible(false))
     }
+
     return (
         <>
-            <TouchableOpacity
-                onPress={() =>
-                    resizeBox(1)
-                }
-            >
+            <TouchableOpacity onPress={() => {
+                resizeBox(1)
+            }}>
                 <Entypo name="dots-three-vertical" size={24} color="black"/>
             </TouchableOpacity>
             <Modal transparent visible={visible}>
                 <SafeAreaView
                     style={{
-                        marginTop:50,
-                        disable:'flex',
-                        justifyContent:"center",
-                        alignItems: "flex-end"
+                        paddingTop: 50,
+                        flex: 1,
+                        justifyContent: "flex-start",
+                        alignItems: "flex-end",
                     }}
                     onTouchStart={() => resizeBox(0)}
                 >
-                    <Animated.View>
+                    <Animated.View
+                        style={{
+                            transform: [{scale}]
+                        }}
+                    >
                         {
-                            options.map((option,i) => {
+                            options.map((option, i) => {
                                 return (
                                     <TouchableOpacity
                                         key={i}
                                         onPress={option.action}
                                         style={{
-                                            backgroundColor:"#e3e3e3",
-                                            flexDirection:'row',
-                                            paddingTop:5,
-                                            paddingBottom:5,
-                                            width:200
+                                            backgroundColor: "#e3e3e3",
+                                            flexDirection: 'row',
+                                            paddingTop: 5,
+                                            paddingBottom: 5,
+                                            width: 200
                                         }}
                                     >
                                         <AntDesign
                                             style={{
-                                                marginLeft:10,
+                                                marginLeft: 10,
                                             }}
                                             name={option.icon}
                                             size={20}
@@ -80,7 +88,7 @@ export default function PopupMenu({navigation}) {
                                         />
                                         <Text
                                             style={{
-                                                marginLeft:10,
+                                                marginLeft: 10,
                                             }}
                                         >
                                             {option.title}
