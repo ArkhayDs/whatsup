@@ -10,14 +10,14 @@ import SafeAreaView from "react-native/Libraries/Components/SafeAreaView/SafeAre
 import {Text} from "react-native-paper";
 import { AntDesign } from '@expo/vector-icons';
 
-export default function PopupMenu() {
+export default function PopupMenu({navigation}) {
     const [visible, setVisible] = useState(false)
     const scale = useRef(new Animated.Value(0)).current
 
     const options = [
         {
             title: 'Qr Code',
-            action: () => console.log('Qr code'),
+            action: () => navigation.navigate('QrCode'),
             icon: "qrcode"
         },
         {

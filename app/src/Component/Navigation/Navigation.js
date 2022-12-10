@@ -22,9 +22,6 @@ export default function Navigation() {
                 options={{
                     animationTypeForReplace: "pop",
                     animation: 'slide_from_right',
-                    headerRight: () => (
-                        <PopupMenu />
-                    ),
                 }}/>
             <ChatStack.Screen
                 name="Chat"
@@ -36,7 +33,6 @@ export default function Navigation() {
                     headerLeft: (navigate) => (
                         <TouchableOpacity
                             onPress={() =>
-                                // console.log(route)
                                 route.params.navigation.navigate('Conversations')
                             }
                         >
@@ -58,7 +54,7 @@ export default function Navigation() {
                 options={{
                     animationTypeForReplace: "pop",
                     animation: 'flip',
-                    header:false,
+                    // headerShown: false
                 }}
             />
         </ChatStack.Navigator>

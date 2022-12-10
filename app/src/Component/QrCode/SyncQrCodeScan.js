@@ -8,12 +8,8 @@ export default function SyncQrCodeScan() {
 
 
     const scanQrCode =  ({ type, data }) => {
-        events.map((item, index) => {
-            console.log(item)
-            if(item.qrcode === data) {
-                console.log(data)
-            }
-        })
+        console.log(data)
+        console.log(type)
     }
 
 
@@ -36,8 +32,6 @@ const styles = StyleSheet.create({
         alignItems:"center",
         width: "100%",
         height: "100%",
-        borderTopRightRadius: 15,
-        borderTopLeftRadius: 15,
 
     },
     camera: {

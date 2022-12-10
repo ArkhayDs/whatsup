@@ -12,12 +12,20 @@ import {AntDesign, Entypo} from "@expo/vector-icons";
 import global_style from "../style";
 import style from "../style";
 import {Menu, MenuOption, MenuOptions, MenuProvider, MenuTrigger} from "react-native-popup-menu";
+import PopupMenu from "../PopupMenu/PopupMenu";
 
 export default function Conversations({navigation}) {
     const [convList, setConvList] = useState([{id: 1, username: "Francise"}, {id: 2, username: "Beber"}, {
         id: 3,
         username: "Paul"
     }, {id: 5, username: "Mireil"}])
+
+    //je ne sais pas si c'est très propre mais ça marche là
+    navigation.setOptions({
+        headerRight: () => (
+            <PopupMenu navigation={navigation}/>
+        ),
+    })
 
     return (
         <SafeAreaView style={global_style.sectionContainer}>
