@@ -24,6 +24,7 @@ export default function Header() {
             <ul>
                 <li><NavLink to="/Conversations">Conversations</NavLink></li>
                 <li><NavLink to="/">Contacts</NavLink></li>
+                <li><NavLink to="/authentification/QrCode">Qrcode</NavLink></li>
             </ul>
             <button onClick={switchDarckMode}>{dark ? <RiMoonFill /> : <RiSunFill /> }</button>
         </nav>

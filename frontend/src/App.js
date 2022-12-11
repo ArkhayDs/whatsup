@@ -12,6 +12,7 @@ import {useDispatch, useSelector} from "react-redux";
 import useGetCookies from "./Hook/useGetCookies";
 import {useEffect} from "react";
 import {LoginAction} from "./Action/LoginAction";
+import Qrcode from "./Component/Authentification/Qrcode";
 
 export default function App() {
     const dark = useSelector(store => store.DarkModeReducer)
@@ -41,6 +42,11 @@ export default function App() {
                         <Route path='/conversations' element={
                             <NeedAuth>
                                 <Chat/>
+                            </NeedAuth>
+                        }/>
+                        <Route path='/authentification/QrCode' element={
+                            <NeedAuth>
+                                <Qrcode />
                             </NeedAuth>
                         }/>
                     </Routes>
