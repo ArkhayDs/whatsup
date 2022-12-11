@@ -1,4 +1,3 @@
-import {useDispatch} from "react-redux";
 import {AxiosInstance} from "../Axios/AxiosInstance";
 
 export default function useRegister() {

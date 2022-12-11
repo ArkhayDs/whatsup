@@ -15,13 +15,16 @@ import UserList from "./SousComonent/UserList";
 import {FaSmileBeam} from "react-icons/fa";
 import useGetCurrentUserUsername from "../../Hook/useGetCurrentUserUsername";
 import useSendMessage from "../../Hook/useSendMessage";
+import usePersistMessage from "../../Hook/usePersistMessage";
 
 export default function Chat() {
     const dispatch = useDispatch()
 
     const getUserList = useGetUserList()
     const getMessages = useGetMessages()
+
     const sendMessage = useSendMessage()
+    const persistMessage = usePersistMessage()
 
     const getTopic = useGetTopicFromUsers()
 
@@ -33,7 +36,7 @@ export default function Chat() {
     const currentUsername = useGetCurrentUserUsername(currentUser)
 
     const [userList, setUserList] = useState(false)
-    const [messages, setMessages] = useState([])
+    const [messages, setMessages] = useState(false)
     const [newMessage, setNewMessage] = useState('')
 
     const handleChange = (e) => {
@@ -42,20 +45,52 @@ export default function Chat() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        let topic = getTopic(currentUserId, otherUser.id)
+        let date = new Date()
+
         setMessages(prev => [
             ...prev,
             {
                 content: newMessage,
-                createdAt: new Date(),
+                createdAt: date,
                 author: {
                     id: currentUserId,
                     username: currentUsername
                 }
             }
         ])
-        sendMessage(getTopic(currentUserId, otherUser.id),newMessage)
+        sendMessage(topic, newMessage, otherUser.id)
+        persistMessage(topic, newMessage, date)
         setNewMessage('')
     }
+
+    const handleMessage = (e) => {
+        let data = JSON.parse(e.data)
+
+        setMessages(prev => [
+            ...prev,
+            {
+                content: data.content,
+                createdAt: new Date(),
+                author: {
+                    id: data.author.id,
+                    username: data.author.username
+                }
+            }
+        ])
+    }
+
+    useEffect( () => {
+        const url = new URL('http://localhost:9090/.well-known/mercure')
+        url.searchParams.append('topic', 'https://example.com/chat')
+
+        const eventSource = new EventSource(url, {withCredentials: true})
+        eventSource.onmessage = handleMessage
+
+        return () => {
+            eventSource.close()
+        }
+    }, [])
 
     useEffect(() => {
         if (currentUser) {
@@ -68,10 +103,11 @@ export default function Chat() {
                     if (data.chat !== null) {
                         setMessages(data.chat.messages)
                     } else {
-                        console.log('ce chat est vide')
+                        setMessages(false)
                     }
                 })
         }
+        setNewMessage('')
     }, [otherUser])
 
     return (
@@ -93,13 +129,13 @@ export default function Chat() {
                         <>
                             <header className="chat-header">
                                 <h2 className="chat-with">Discussion avec {otherUser.username}</h2>
-                                <p className="chat-num-messages">{messages.length} messages</p>
+                                <p className="chat-num-messages">{messages.length >= 0 ? messages.length : "Aucun"} messages</p>
                             </header>
                             <div className="chat-history">
                                 <ChatMessages messages={messages} currentUserId={currentUserId}/>
                             </div>
                             <footer className="chat-message">
-                                <input className="input" role="textbox" contentEditable onChange={handleChange}/>
+                                <input className="input" role="textbox" contentEditable onChange={handleChange} value={newMessage}/>
                                 <button onClick={handleSubmit}><MdSend/></button>
                             </footer>
                         </>

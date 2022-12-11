@@ -6,7 +6,7 @@ export default function ChatMessages({messages, currentUserId}) {
                     <ul>
                         {messages.map((message,i) => {
                             let datetime = new Date(message.createdAt)
-                            let date = datetime.getHours() + ":" + datetime.getMinutes() + " - " + datetime.toLocaleDateString('fr')
+                            let date = datetime.toLocaleString("fr",{hour:'numeric',minute:'numeric'}) + " - " + datetime.toLocaleDateString('fr')
 
                             if (currentUserId !== message.author.id) {
                                 return (
@@ -40,8 +40,8 @@ export default function ChatMessages({messages, currentUserId}) {
                     </ul>
                     :
 
-                    <div className="indeterminate-progress-bar">
-                        <div className="indeterminate-progress-bar__progress"> </div>
+                    <div>
+                        <div>Aucun message</div>
                     </div>
             }
         </>

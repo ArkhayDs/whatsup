@@ -9,15 +9,32 @@ use App\Repository\ChatRepository;
 use App\Service\PrivateChatHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ChatController extends AbstractController
 {
+    /**
+     * @var HubInterface
+     */
+    private HubInterface $hub;
+
+    /**
+     * @param HubInterface $hub
+     */
+    public function __construct(HubInterface $hub)
+    {
+        $this->hub = $hub;
+    }
+
+
     /**
      * @throws NonUniqueResultException
      */
@@ -42,7 +59,14 @@ class ChatController extends AbstractController
         ],200, [], ['groups' => ['usable']]);
     }
 
-    #[Route('/chat/send-message', name: 'app_chat_send_message', methods: 'POST')]
+    /**
+     * @param Request $request
+     * @param ChatRepository $chatRepository
+     * @param EntityManagerInterface $entityManager
+     * @param PrivateChatHelper $chatHelper
+     * @return JsonResponse
+     */
+    #[Route('/chat/persist-message', name: 'app_chat_persist_message', methods: 'POST')]
     #[IsGranted('ROLE_USER')]
     public function persistMessage(Request                  $request,
                                    ChatRepository           $chatRepository,
@@ -80,11 +104,44 @@ class ChatController extends AbstractController
             return $this->json([
                 'status' => 1,
             ], Response::HTTP_CREATED);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $this->json([
                 'status' => 0,
                 'error' => $exception->getMessage()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+
+    /**
+     * @param User $otheruser
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Exception
+     */
+    #[Route('/chat/send-message/{otheruser}', name: 'app_chat_send_message', methods: 'POST')]
+    #[IsGranted('ROLE_USER')]
+    public function sendMessageMercure(User $otheruser,Request $request): JsonResponse
+    {
+        /** @var $user User */
+        $user = $this->getUser();
+
+        $update = new Update(
+            [
+                "https://example.com/chat",
+                "https://example.com/user/{$otheruser->getId()}/?topic=" . urlencode('https://example.com/chat')
+            ],
+            json_encode([
+                'content' => $request->request->get('content'),
+                'author' => ['username' => $user->getUsername(), 'id' => $user->getId()]
+            ]),
+            true
+        );
+
+        $this->hub->publish($update);
+
+        return $this->json([
+           'message' => "message envoyé !"
+        ]);
     }
 }

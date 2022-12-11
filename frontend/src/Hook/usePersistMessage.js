@@ -1,12 +1,12 @@
 import {AxiosInstance} from "../Axios/AxiosInstance";
 import {useSelector} from "react-redux";
 
-export default function useSendMessage() {
+export default function usePersistMessage() {
     const currentUser = useSelector(store => store.SigninReducer)
 
-    return function (topic, content, otheruserId) {
+    return function (topic, content) {
         return AxiosInstance({
-            url: `/chat/send-message/${otheruserId}`,
+            url: `/chat/persist-message`,
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${currentUser}`
