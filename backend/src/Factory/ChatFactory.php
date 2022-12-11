@@ -4,6 +4,7 @@ namespace App\Factory;
 
 use App\Entity\Chat;
 use App\Repository\ChatRepository;
+use App\Service\PrivateChatHelper;
 use Zenstruck\Foundry\RepositoryProxy;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
@@ -29,18 +30,19 @@ use Zenstruck\Foundry\Proxy;
  */
 final class ChatFactory extends ModelFactory
 {
-    public function __construct()
+    private PrivateChatHelper $chatHelper;
+
+    public function __construct(PrivateChatHelper $chatHelper)
     {
         parent::__construct();
-
-        // TODO inject services if required (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services)
+        $this->chatHelper = $chatHelper;
     }
 
     protected function getDefaults(): array
     {
         return [
-            // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
-            'CreatedAt' => null, // TODO add DATETIME ORM type manually
+            'topic' => $this->chatHelper->getPrivateChatTopic(UserFactory::random()->getId(), UserFactory::random()->getId()),
+            'CreatedAt' => self::faker()->dateTimeBetween('-10 days')
         ];
     }
 

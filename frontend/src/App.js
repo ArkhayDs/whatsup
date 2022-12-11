@@ -5,10 +5,10 @@ import Header from "./Component/Header";
 import Footer from "./Component/Footer";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import NeedAuth from "./Auth/NeedAuth";
-import Conversations from "./Component/Conversations/Conversations";
+import Conversations from "./Component/Chat/Chat";
 import Contacts from "./Component/Contacts/Contacts";
 import Authentification from "./Component/Authentification/Authentification";
-import Chat from "./Component/Conversations/Chat";
+import Chat from "./Component/Chat/Chat";
 import {useDispatch, useSelector} from "react-redux";
 import useGetCookies from "./Hook/useGetCookies";
 import {useEffect} from "react";
@@ -19,18 +19,16 @@ export default function App() {
     const dispatch = useDispatch()
     const cookies = useGetCookies()
 
-
     useEffect(() => {
         if (Object.keys(cookies).includes('WhatsUpJWT')) {
             dispatch(LoginAction(cookies.WhatsUpJWT))
-        }
-        window.onload = function() {
-            const url = new URL('http://localhost:1234/.well-known/mercure');
-            url.searchParams.append('topic', 'https://example.com/my-private-topic');
 
-            const eventSource = new EventSource(url);
-
-            eventSource.onmessage = e => console.log(JSON.parse(e.data));
+            const url = new URL('http://localhost:9090/.well-known/mercure')
+            url.searchParams.append('topic', 'https://example.com/chat')
+            const eventSource = new EventSource(url, {withCredentials: true})
+            return () => {
+                eventSource.close()
+            }
         }
     }, [])
 
@@ -48,12 +46,7 @@ export default function App() {
                             </NeedAuth>
                         }/>
                         <Route path='/authentification' element={<Authentification/>}/>
-                        <Route path='/Conversations' element={
-                            <NeedAuth>
-                                <Conversations/>
-                            </NeedAuth>
-                        }/>
-                        <Route path='/Conversations/id' element={
+                        <Route path='/conversations' element={
                             <NeedAuth>
                                 <Chat/>
                             </NeedAuth>
