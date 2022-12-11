@@ -46,7 +46,7 @@ export default function Navigation() {
                                 route.params.navigation.navigate('Conversations')
                             }
                         >
-                            <AntDesign style={global_style.arrow_header} name="arrowleft" size={24} color="black"/>
+                            <AntDesign style={global_style.arrow_header} name="arrowleft" size={24} color="#fff"/>
                         </TouchableOpacity>
                     ),
                 })}/>
