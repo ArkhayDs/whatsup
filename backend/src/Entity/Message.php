@@ -13,7 +13,6 @@ class Message
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['usable'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]

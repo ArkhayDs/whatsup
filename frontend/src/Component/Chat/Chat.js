@@ -1,5 +1,6 @@
 import './chat.scss'
 import './chat-dark.scss'
+import '../style.scss'
 
 import {MdOutlineArrowBackIosNew, MdSend} from 'react-icons/md';
 import {NavLink} from "react-router-dom";
@@ -8,20 +9,28 @@ import {useEffect, useState} from "react";
 import useGetUserList from "../../Hook/useGetUserList";
 import useGetMessages from "../../Hook/useGetMessages";
 import useGetCurrentUserId from "../../Hook/useGetCurrentUserId";
-import useGetCurrentUserUsername from "../../Hook/useGetCurrentUserUsername";
 import useGetTopicFromUsers from "../../Hook/useGetTopicFromUsers";
-import {ChatAction} from "../../Action/ChatAction";
+import ChatMessages from "./SousComonent/ChatMessage";
+import UserList from "./SousComonent/UserList";
+import {FaSmileBeam} from "react-icons/fa";
+import useGetCurrentUserUsername from "../../Hook/useGetCurrentUserUsername";
+import useSendMessage from "../../Hook/useSendMessage";
 
 export default function Chat() {
     const dispatch = useDispatch()
+
     const getUserList = useGetUserList()
     const getMessages = useGetMessages()
-    const currentUserId = useGetCurrentUserId()
+    const sendMessage = useSendMessage()
+
     const getTopic = useGetTopicFromUsers()
 
     const currentUser = useSelector(store => store.SigninReducer)
     const otherUser = useSelector(store => store.ChatReducer)
     const dark = useSelector(store => store.DarkModeReducer)
+
+    const currentUserId = useGetCurrentUserId(currentUser)
+    const currentUsername = useGetCurrentUserUsername(currentUser)
 
     const [userList, setUserList] = useState(false)
     const [messages, setMessages] = useState([])
@@ -31,15 +40,32 @@ export default function Chat() {
         setNewMessage(e.target.value)
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        setMessages(prev => [
+            ...prev,
+            {
+                content: newMessage,
+                createdAt: new Date(),
+                author: {
+                    id: currentUserId,
+                    username: currentUsername
+                }
+            }
+        ])
+        sendMessage(getTopic(currentUserId, otherUser.id),newMessage)
+        setNewMessage('')
+    }
+
     useEffect(() => {
         if (currentUser) {
             getUserList().then(data => {
                 setUserList(data.users)
             })
-            console.log(userList)
-            getMessages(getTopic(currentUserId,otherUser.id))
+
+            getMessages(getTopic(currentUserId, otherUser.id))
                 .then(data => {
-                    if (data.chat !== null ) {
+                    if (data.chat !== null) {
                         setMessages(data.chat.messages)
                     } else {
                         console.log('ce chat est vide')
@@ -59,25 +85,9 @@ export default function Chat() {
                         </NavLink>
                     </header>
                     <div className="contact-view">
-                            {userList ?
-                                <ul>
-                                    {userList.map((user) => {
-                                        return (
-                                            <li key={user.id}>
-                                                <a onClick={ () => { dispatch(ChatAction(user.username,user.id)) }}>
-                                                    <h3 className="chat-with">{user.username}</h3>
-                                                    <p className="chat-num-messages">Dernier message</p>
-                                                </a>
-                                            </li>
-                                        )
-                                    })}
-                                </ul>
-                                :
-                                <p>coucou</p>
-                            }
+                        <UserList userList={userList} dispatch={dispatch}/>
                     </div>
                 </div>
-
                 <div className="chat">
                     {otherUser ?
                         <>
@@ -86,54 +96,20 @@ export default function Chat() {
                                 <p className="chat-num-messages">{messages.length} messages</p>
                             </header>
                             <div className="chat-history">
-                                {messages ?
-                                    <ul>
-                                        {messages.map((message) => {
-                                            let datetime = new Date(message.createdAt)
-                                            let date = datetime.getHours() + ":" + datetime.getMinutes() + " - " + datetime.toLocaleDateString('fr')
-
-                                            if (currentUserId !== message.author.id) {
-                                                return (
-                                                    <li className=" other-message">
-                                                        <div className="message-data">
-                                                            <span
-                                                                className="message-data-name">{message.author.username}</span>
-                                                            <span className="message-data-time">{date}</span>
-                                                        </div>
-                                                        <div className="message message-text">
-                                                            {message.content}
-                                                        </div>
-                                                    </li>
-                                                )
-                                            } else {
-                                                return (
-                                                    <li className="my-message">
-                                                        <div className="message-data">
-                                                            <span className="message-data-time">{date}</span> &nbsp; &nbsp;
-                                                            <span
-                                                                className="message-data-name">{message.author.username}</span><i
-                                                            className="fa fa-circle me"> </i>
-                                                        </div>
-                                                        <div className="message message-text">
-                                                            {message.content}
-                                                        </div>
-                                                    </li>
-                                                )
-                                            }
-                                        })}
-                                    </ul>
-                                    :
-                                    <p>po de messages gros naze</p>
-                                }
+                                <ChatMessages messages={messages} currentUserId={currentUserId}/>
                             </div>
                             <footer className="chat-message">
-                                <span className="input" role="textbox" contentEditable onChange={handleChange}/>
-                                <button><MdSend/></button>
+                                <input className="input" role="textbox" contentEditable onChange={handleChange}/>
+                                <button onClick={handleSubmit}><MdSend/></button>
                             </footer>
                         </>
                         :
-                        <div className="chat-history">
-                            <p>Reprends une conversation via la liste à gauche ou lances-en une nouvelle depuis ta liste de contacts !</p>
+                        <div className="chat-nohistory">
+                            <FaSmileBeam size={150} />
+                            <h3>
+                                Reprends une conversation via la liste à gauche <br/><br/>
+                                ou lances-en une nouvelle depuis ta liste de contacts !
+                            </h3>
                         </div>
                     }
                 </div>

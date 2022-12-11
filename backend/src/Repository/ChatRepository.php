@@ -50,7 +50,7 @@ class ChatRepository extends ServiceEntityRepository
             ->setParameter("value",$topic)
             ->leftJoin("c.messages","m")
             ->addSelect("m")
-            ->orderBy("m.createdAt","DESC")
+            ->orderBy("m.createdAt","ASC")
             ->getQuery()
             ->getOneOrNullResult();
     }

@@ -13,10 +13,12 @@
   .contacts {
     width: 20%;
     height: 100%;
-    background-color: #FFFFFF;
+    background-color: #F0F2F5;
     position: relative;
     display: flex;
     flex-direction: column;
+    border-right: 1px solid;
+
 
     .contact-header {
       display: flex;
@@ -24,8 +26,6 @@
       gap: 10px;
       padding: 0 25px;
       height: 100px;
-      border-bottom: 1px solid;
-      background-color: #F0F2F5;
       order: 1;
 
       .contact-header-button {
@@ -42,6 +42,9 @@
 
       li {
         margin-bottom: 20px;
+      }
+      a:hover {
+        cursor: pointer;
       }
 
     }
@@ -77,6 +80,19 @@
         color: #8AB8D0;
         font-size: 18px;
       }
+      .chat-num-messages:hover {
+        cursor: pointer;
+      }
+    }
+    .chat-nohistory {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      text-align: center;
+      gap: 50px;
     }
 
     .chat-history {
@@ -152,7 +168,7 @@
       bottom: 0;
       order: 3;
 
-      span {
+      input {
         border: solid black 1px;
         min-height: 20px;
         max-height: 100px;
@@ -172,6 +188,7 @@
         cursor: pointer;
         font-weight: bold;
         background: none;
+        margin-left: 15px;
 
         &:hover {
           color: darken(#8AB8D0, 7%);

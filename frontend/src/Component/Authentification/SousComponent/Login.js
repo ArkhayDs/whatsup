@@ -1,8 +1,8 @@
-import './authentification.scss'
+import '../authentification.scss'
 import {useState} from "react";
 import {useDispatch} from "react-redux";
-import useLogin from "../../Hook/useLogin";
-import {LoginAction} from "../../Action/LoginAction";
+import useLogin from "../../../Hook/useLogin";
+import {LoginAction} from "../../../Action/LoginAction";
 import {useLocation, useNavigate} from "react-router-dom";
 
 export default function Login() {
@@ -27,13 +27,6 @@ export default function Login() {
             })
             .then(() =>setLoading(false))
             .then(() => navigate(from, {replace: true}))
-
-        const url = new URL('http://localhost:9090/.well-known/mercure')
-        url.searchParams.append('topic', 'https://example.com/chat')
-        const eventSource = new EventSource(url, {withCredentials: true})
-        return () => {
-            eventSource.close()
-        }
     }
 
     return (
