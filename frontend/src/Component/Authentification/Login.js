@@ -6,24 +6,26 @@ import {LoginAction} from "../../Action/LoginAction";
 import {useLocation, useNavigate} from "react-router-dom";
 
 export default function Login() {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
-    const navigate = useNavigate();
-    const location = useLocation();
+    const navigate = useNavigate()
+    const location = useLocation()
     let from = location.state?.from?.pathname || '/'
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [loding, setLoding] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const login = useLogin()
 
     const submit = (e) => {
-        setLoding(true)
+        setLoading(true)
         e.preventDefault()
         login(username,password)
-            .then(res => dispatch(LoginAction(res.jwt)))
-            .then(() =>setLoding(false))
+            .then(res => {
+                dispatch(LoginAction(res.jwt))
+            })
+            .then(() =>setLoading(false))
             .then(() => navigate(from, {replace: true}))
 
     }
@@ -42,7 +44,7 @@ export default function Login() {
                 <label htmlFor="password" className="input_label">Mot de passe</label>
             </div>
             <br/>
-            {loding ?
+            {loading ?
                 <div className="indeterminate-progress-bar">
                     <div className="indeterminate-progress-bar__progress"> </div>
                 </div>

@@ -7,7 +7,7 @@ use App\Security\JWTAuthenticator;
 use App\Service\CookieHelper;
 use App\Service\JWTHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use Firebase\JWT\JWT;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +20,7 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 class UserController extends AbstractController
 {
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     #[Route('/login', name: 'app_login')]
     public function login(CookieHelper $cookieHelper, JWTHelper $JWTHelper): JsonResponse
@@ -34,18 +34,19 @@ class UserController extends AbstractController
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        $jwt = $JWTHelper->createJWT($user);
-
         return $this->json(
             [
                 'message' => 'Connexion réussie, bonjour ' . $user->getUsername() . '!',
-                'jwt' => $jwt
+                'jwt' => $JWTHelper->createJWT($user)
             ],
             200,
-            ['set-cookie' => $cookieHelper->buildCookie($jwt,"WhatsUpJWT","30 minutes")]
+            ['set-cookie' => [$cookieHelper->buildCookie($user),$cookieHelper->buildMercureCookie($user)]]
         );
     }
 
+    /**
+     * @throws Exception
+     */
     #[Route('/register', name: 'app_register', methods: 'POST')]
     public function register(Request                        $request,
                              EntityManagerInterface         $entityManager,
@@ -72,15 +73,13 @@ class UserController extends AbstractController
                 $request
             );
 
-            $jwt = $JWTHelper->createJWT($user);
-
             return $this->json(
                 [
                     'message' => 'Inscription réussie, bonjour ' . $user->getUsername() . '!',
-                    'jwt' => $jwt
+                    'jwt' => $JWTHelper->createJWT($user)
                 ],
                 200,
-                ['set-cookie' => $cookieHelper->buildCookie($jwt,"WhatsUpJWT","30 minutes")]
+                ['set-cookie' => [$cookieHelper->buildCookie($user),$cookieHelper->buildMercureCookie($user)]]
             );
         }
         return $this->json([

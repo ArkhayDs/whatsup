@@ -28,21 +28,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['usable'])]
     private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
     #[ORM\Column(type: 'string')]
     private ?string $password = null;
-
-    #[ORM\ManyToMany(targetEntity: Chat::class, mappedBy: 'Users')]
-    private Collection $chats;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Message::class, orphanRemoval: true)]
     private Collection $messages;
 
     public function __construct()
     {
-        $this->chats = new ArrayCollection();
         $this->messages = new ArrayCollection();
     }
 
@@ -114,33 +107,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    /**
-     * @return Collection<int, Chat>
-     */
-    public function getChats(): Collection
-    {
-        return $this->chats;
-    }
-
-    public function addChat(Chat $chat): self
-    {
-        if (!$this->chats->contains($chat)) {
-            $this->chats->add($chat);
-            $chat->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeChat(Chat $chat): self
-    {
-        if ($this->chats->removeElement($chat)) {
-            $chat->removeUser($this);
-        }
-
-        return $this;
     }
 
     /**

@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\CookieHelper;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,12 +22,12 @@ class BaseController extends AbstractController
         /** @var $user ?User */
         $user = $this->getUser();
 
-        return $this->json([
-            'users' => $userRepository->findAll()
-        ], 200, [], ['groups' => 'usable']);
 //        return $this->json([
-//            'users' => $userRepository->findAllButMe($user)
+//            'users' => $userRepository->findAll()
 //        ], 200, [], ['groups' => 'usable']);
+        return $this->json([
+            'users' => $userRepository->findAllButMe($user)
+        ], 200, [], ['groups' => 'usable']);
     }
 
     #[Route('/mercure-publish', name: 'app_mercure_publish')]

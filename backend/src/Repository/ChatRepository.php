@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Chat;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,28 +40,18 @@ class ChatRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Chat[] Returns an array of Chat objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Chat
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function getAllMessagesOrderByDate(string $topic)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere("c.topic = :value")
+            ->setParameter("value",$topic)
+            ->leftJoin("c.messages","m")
+            ->addSelect("m")
+            ->orderBy("m.createdAt","DESC")
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

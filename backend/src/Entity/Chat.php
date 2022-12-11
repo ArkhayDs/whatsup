@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ChatRepository::class)]
 class Chat
@@ -14,17 +15,24 @@ class Chat
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['usable'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['usable'])]
     private ?\DateTimeInterface $CreatedAt = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'chats')]
-    private Collection $Users;
+    #[ORM\OneToMany(mappedBy: 'chat', targetEntity: Message::class, orphanRemoval: true)]
+    #[Groups(['usable'])]
+    private Collection $messages;
+
+    #[ORM\Column(length: 255)]
+    #[Groups(['usable'])]
+    private ?string $topic = null;
 
     public function __construct()
     {
-        $this->Users = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -45,25 +53,43 @@ class Chat
     }
 
     /**
-     * @return Collection<int, User>
+     * @return Collection<int, Message>
      */
-    public function getUsers(): Collection
+    public function getMessages(): Collection
     {
-        return $this->Users;
+        return $this->messages;
     }
 
-    public function addUser(User $user): self
+    public function addMessage(Message $message): self
     {
-        if (!$this->Users->contains($user)) {
-            $this->Users->add($user);
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setChat($this);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeMessage(Message $message): self
     {
-        $this->Users->removeElement($user);
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getChat() === $this) {
+                $message->setChat(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTopic(): ?string
+    {
+        return $this->topic;
+    }
+
+    public function setTopic(string $topic): self
+    {
+        $this->topic = $topic;
 
         return $this;
     }

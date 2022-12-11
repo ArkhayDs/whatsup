@@ -19,19 +19,17 @@ services:
     environment:
       # Uncomment the following line to disable HTTPS
       SERVER_NAME: ':80'
-      MERCURE_PUBLISHER_JWT_KEY: 'lM0fBl9nDL69nxRkm43lM0fBl9nDL69nxRkm43lM0fBl9nDL69nxRkm43'
-      MERCURE_SUBSCRIBER_JWT_KEY: 'lM0fBl9nDL69nxRkm43lM0fBl9nDL69nxRkm43lM0fBl9nDL69nxRkm43'
+      MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!DFG654LKJDSFTG3LKJBVSEQRLKjhvb1srdt132lkvb4jsdftMLKVBJrsdtdV0Jrs5tLKVjdrtVKLRETSjKLMIj'
+      MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!DFG654LKJDSFTG3LKJBVSEQRLKjhvb1srdt132lkvb4jsdftMLKVBJrsdtdV0Jrs5tLKVjdrtVKLRETSjKLMIj'
       MERCURE_EXTRA_DIRECTIVES:
-          anonymous
-          cors_origins "*"
+        cors_origins "http://localhost:9999"
+        cors_origins "http://localhost:3000"
     # Uncomment the following line to enable the development mode
-#    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
     ports:
-      - "1234:80"
+      - "9090:80"
       - "443:443"
-#    volumes:
-#      - caddy_data:/data
-#      - caddy_config:/config
+    networks:
+      - dev
 
   db:
     image: mariadb
@@ -61,6 +59,4 @@ networks:
   dev:
 
 volumes:
-#  caddy_data:
-#  caddy_config:
   db-data:

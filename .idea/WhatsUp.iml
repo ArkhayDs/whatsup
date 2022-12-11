@@ -41,7 +41,6 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/doctrine/orm" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/doctrine/persistence" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/doctrine/sql-formatter" />
-      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/fakerphp/faker" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/doctrine/inflector" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/doctrine/instantiator" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/doctrine/lexer" />
@@ -82,6 +81,17 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/flex" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/firebase/php-jwt" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/serializer" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/web-link" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/lcobucci/jwt" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/lcobucci/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/stella-maris/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/psr/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/psr/link" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/http-client-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/http-client" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/mercure-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/mercure" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/fakerphp/faker" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
