@@ -19,6 +19,9 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class UserController extends AbstractController
 {
+    /**
+     * @throws \Exception
+     */
     #[Route('/login', name: 'app_login')]
     public function login(CookieHelper $cookieHelper, JWTHelper $JWTHelper): JsonResponse
     {

@@ -24,14 +24,6 @@ export default function App() {
         if (Object.keys(cookies).includes('WhatsUpJWT')) {
             dispatch(LoginAction(cookies.WhatsUpJWT))
         }
-        window.onload = function() {
-            const url = new URL('http://localhost:1234/.well-known/mercure');
-            url.searchParams.append('topic', 'https://example.com/my-private-topic');
-
-            const eventSource = new EventSource(url);
-
-            eventSource.onmessage = e => console.log(JSON.parse(e.data));
-        }
     }, [])
 
     return (
