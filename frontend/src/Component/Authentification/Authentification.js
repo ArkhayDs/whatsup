@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import './authentification.scss'
 import './authentification-dark.scss'
-import Login from "./Login";
-import Register from "./Register";
+import Login from "./SousComponent/Login";
+import Register from "./SousComponent/Register";
 import {useSelector} from "react-redux";
 
 

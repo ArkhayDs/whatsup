@@ -1,10 +1,10 @@
-import './authentification.scss'
+import '../authentification.scss'
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {useLocation, useNavigate} from "react-router-dom";
-import useRegister from "../../Hook/useRegister";
+import useRegister from "../../../Hook/useRegister";
 import Login from "./Login";
-import {LoginAction} from "../../Action/LoginAction";
+import {LoginAction} from "../../../Action/LoginAction";
 
 export default function Register() {
     const dispatch = useDispatch();

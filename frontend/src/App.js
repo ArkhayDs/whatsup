@@ -12,7 +12,7 @@ import {useDispatch, useSelector} from "react-redux";
 import useGetCookies from "./Hook/useGetCookies";
 import {useEffect} from "react";
 import {LoginAction} from "./Action/LoginAction";
-import Qrcode from "./Component/Authentification/Qrcode";
+import Qrcode from "./Component/QrCode/Qrcode";
 
 export default function App() {
     const dark = useSelector(store => store.DarkModeReducer)
