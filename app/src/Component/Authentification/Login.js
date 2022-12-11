@@ -31,8 +31,11 @@ export default function Login({navigation}) {
 
     const submit = (e) => {
         login(username,password)
-            .then(res => dispatch(LoginAction(res.jwt)))
-            .then(() => navigation.navigate("Conversations"))
+            .then(res => {
+                console.log("res :",res)
+                // dispatch(LoginAction(res.jwt))
+            })
+            // .then(() => navigation.navigate("Conversations"))
     }
 
     return (

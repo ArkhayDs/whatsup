@@ -14,5 +14,6 @@ export default function useLogin() {
             })
         })
             .then(res => res.data)
+            .catch(error => console.log(error))
     }
 }
