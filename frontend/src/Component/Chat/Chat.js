@@ -3,24 +3,47 @@ import './chat-dark.scss'
 
 import {MdOutlineArrowBackIosNew, MdSend} from 'react-icons/md';
 import {NavLink} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import useGetUserList from "../../Hook/useGetUserList";
+import useGetMessages from "../../Hook/useGetMessages";
+import useGetCurrentUserId from "../../Hook/useGetCurrentUserId";
+import useGetCurrentUserUsername from "../../Hook/useGetCurrentUserUsername";
+import useGetTopicFromUsers from "../../Hook/useGetTopicFromUsers";
+import {ChatAction} from "../../Action/ChatAction";
 
 export default function Chat() {
+    const dispatch = useDispatch()
     const getUserList = useGetUserList()
+    const getMessages = useGetMessages()
+    const currentUserId = useGetCurrentUserId()
+    const currentUserUsername = useGetCurrentUserUsername()
+    const getTopic = useGetTopicFromUsers()
+
     const currentUser = useSelector(store => store.SigninReducer)
+    const otherUser = useSelector(store => store.ChatReducer)
     const dark = useSelector(store => store.DarkModeReducer)
 
     const [userList, setUserList] = useState(false)
+    const [messages, setMessages] = useState([])
+    const [newMessage, setNewMessage] = useState('')
 
     useEffect(() => {
         if (currentUser) {
             getUserList().then(data => {
                 setUserList(data.users)
             })
+            console.log(userList)
+            getMessages(getTopic(currentUserId,otherUser.id))
+                .then(data => {
+                    if (data.chat !== null ) {
+                        setMessages(data.chat.messages)
+                    } else {
+                        console.log('ce chat est vide')
+                    }
+                })
         }
-    }, [currentUser])
+    }, [otherUser])
 
     return (
         <div className={dark ? 'fond-black' : ''}>
@@ -38,8 +61,10 @@ export default function Chat() {
                                     {userList.map((user) => {
                                         return (
                                             <li key={user.id}>
-                                                <h3 className="chat-with">{user.username}</h3>
-                                                <p className="chat-num-messages">Dernier message</p>
+                                                <a onClick={ () => { dispatch(ChatAction(user.username,user.id)) }}>
+                                                    <h3 className="chat-with">{user.username}</h3>
+                                                    <p className="chat-num-messages">Dernier message</p>
+                                                </a>
                                             </li>
                                         )
                                     })}
@@ -49,38 +74,65 @@ export default function Chat() {
                             }
                     </div>
                 </div>
+
                 <div className="chat">
-                    <header className="chat-header">
-                        <h2 className="chat-with">Chat with Vincent Porter</h2>
-                        <p className="chat-num-messages">already 1 902 messages</p>
-                    </header>
-                    <div className="chat-history">
-                        <ul>
-                            <li className="my-message">
-                                <div className="message-data">
-                                    <span className="message-data-time">10:10 AM, Today</span> &nbsp; &nbsp;
-                                    <span className="message-data-name">Olia</span><i className="fa fa-circle me"> </i>
-                                </div>
-                                <div className="message message-text">
-                                    Hi Vincent, how are you? How is the project coming along?
-                                    Hi Vincent, how are you? How is the project coming along?
-                                </div>
-                            </li>
-                            <li className=" other-message">
-                                <div className="message-data">
-                                    <span className="message-data-name">Vincent</span>
-                                    <span className="message-data-time">10:20 AM, Today</span>
-                                </div>
-                                <div className="message message-text">
-                                    Actually everything was fine. I'm very excited to show this to our team.
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <footer className="chat-message">
-                        <span className="input" role="textbox" contentEditable/>
-                        <button><MdSend/></button>
-                    </footer>
+                    {otherUser ?
+                        <>
+                            <header className="chat-header">
+                                <h2 className="chat-with">Discussion avec {otherUser.username}</h2>
+                                <p className="chat-num-messages">{messages.length} messages</p>
+                            </header>
+                            <div className="chat-history">
+                                {messages ?
+                                    <ul>
+                                        {messages.map((message) => {
+                                            let datetime = new Date(message.createdAt)
+                                            let date = datetime.getHours() + ":" + datetime.getMinutes() + " - " + datetime.toLocaleDateString('fr')
+
+                                            if (currentUserId !== message.author.id) {
+                                                return (
+                                                    <li className=" other-message">
+                                                        <div className="message-data">
+                                                            <span
+                                                                className="message-data-name">{message.author.username}</span>
+                                                            <span className="message-data-time">{date}</span>
+                                                        </div>
+                                                        <div className="message message-text">
+                                                            {message.content}
+                                                        </div>
+                                                    </li>
+                                                )
+                                            } else {
+                                                return (
+                                                    <li className="my-message">
+                                                        <div className="message-data">
+                                                            <span className="message-data-time">{date}</span> &nbsp; &nbsp;
+                                                            <span
+                                                                className="message-data-name">{message.author.username}</span><i
+                                                            className="fa fa-circle me"> </i>
+                                                        </div>
+                                                        <div className="message message-text">
+                                                            {message.content}
+                                                        </div>
+                                                    </li>
+                                                )
+                                            }
+                                        })}
+                                    </ul>
+                                    :
+                                    <p>po de messages gros naze</p>
+                                }
+                            </div>
+                            <footer className="chat-message">
+                                <span className="input" role="textbox" contentEditable/>
+                                <button><MdSend/></button>
+                            </footer>
+                        </>
+                        :
+                        <div className="chat-history">
+                            <p>Reprends une conversation via la liste à gauche ou lances-en une nouvelle depuis ta liste de contacts !</p>
+                        </div>
+                    }
                 </div>
             </section>
         </div>

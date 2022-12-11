@@ -1,11 +1,13 @@
 import useGetUserList from "../../Hook/useGetUserList";
 import {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import '../style.scss'
 import './contacts.scss'
 import {NavLink} from "react-router-dom";
+import {ChatAction} from "../../Action/ChatAction";
 
 export default function Contacts() {
+    const dispatch = useDispatch()
     const getUserList = useGetUserList()
     const currentUser = useSelector(store => store.SigninReducer)
     const dark = useSelector(store => store.DarkModeReducer)
@@ -27,7 +29,7 @@ export default function Contacts() {
                 <div className="contact_button_container">
                     {userList.map((user) => {
                         return (
-                            <button className="contact_button" key={user.id} value={user.id}>
+                            <button className="contact_button" key={user.id} value={user.id} onClick={() => { dispatch(ChatAction(user.username,user.id)) }}>
                                 <NavLink to="/conversations">
                                     <div className="zigzag-timeline__item">
                                             <span className="zigzag-timeline__milestone"> </span>
