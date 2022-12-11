@@ -5,7 +5,6 @@ import Header from "./Component/Header";
 import Footer from "./Component/Footer";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import NeedAuth from "./Auth/NeedAuth";
-import Conversations from "./Component/Chat/Chat";
 import Contacts from "./Component/Contacts/Contacts";
 import Authentification from "./Component/Authentification/Authentification";
 import Chat from "./Component/Chat/Chat";
@@ -22,7 +21,6 @@ export default function App() {
     useEffect(() => {
         if (Object.keys(cookies).includes('WhatsUpJWT')) {
             dispatch(LoginAction(cookies.WhatsUpJWT))
-
             const url = new URL('http://localhost:9090/.well-known/mercure')
             url.searchParams.append('topic', 'https://example.com/chat')
             const eventSource = new EventSource(url, {withCredentials: true})

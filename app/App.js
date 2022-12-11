@@ -1,47 +1,17 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import type {Node} from 'react';
-import {
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
+import {NavigationContainer} from "@react-navigation/native";
+import Navigation from "./src/Component/Navigation/Navigation";
+import {Provider} from "react-redux";
+import {Store} from "./src/Store/Store";
 
-const App: () => Node = () => {
+
+export default function App() {
     return (
-        <SafeAreaView style={styles.sectionContainer}>
-            <ScrollView contentInsetAdjustmentBehavior="automatic">
-                <View>
-                    <Text style={styles.sectionTitle}>
-                        Hello World
-                    </Text>
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+        <Provider store={Store}>
+            <NavigationContainer>
+                <Navigation/>
+            </NavigationContainer>
+        </Provider>
     );
 };
 
-const styles = StyleSheet.create({
-    sectionContainer: {
-        flex:1,
-        backgroundColor:'red',
-        justifyContent:"center",
-        alignItems:'center'
-    },
-    sectionTitle: {
-        fontSize: 24,
-        fontWeight: '600',
-        color:'white',
-    },
-});
-
-export default App;
