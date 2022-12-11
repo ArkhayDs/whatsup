@@ -3,15 +3,24 @@ import './chat-dark.scss'
 
 import {MdOutlineArrowBackIosNew, MdSend} from 'react-icons/md';
 import {NavLink} from "react-router-dom";
-import {useSelector, shallowEqual} from "react-redux";
+import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
+import useGetUserList from "../../Hook/useGetUserList";
 
 export default function Chat() {
+    const getUserList = useGetUserList()
+    const currentUser = useSelector(store => store.SigninReducer)
     const dark = useSelector(store => store.DarkModeReducer)
 
-    useEffect(() => {
+    const [userList, setUserList] = useState(false)
 
-    })
+    useEffect(() => {
+        if (currentUser) {
+            getUserList().then(data => {
+                setUserList(data.users)
+            })
+        }
+    }, [currentUser])
 
     return (
         <div className={dark ? 'fond-black' : ''}>
@@ -24,108 +33,20 @@ export default function Chat() {
                         </NavLink>
                     </header>
                     <div className="contact-view">
-                        <ul>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">Vincent</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                            <li>
-                                <h3 className="chat-with">coucou</h3>
-                                <p className="chat-num-messages">Online</p>
-                            </li>
-                        </ul>
+                            {userList ?
+                                <ul>
+                                    {userList.map((user) => {
+                                        return (
+                                            <li key={user.id}>
+                                                <h3 className="chat-with">{user.username}</h3>
+                                                <p className="chat-num-messages">Dernier message</p>
+                                            </li>
+                                        )
+                                    })}
+                                </ul>
+                                :
+                                <p>coucou</p>
+                            }
                     </div>
                 </div>
                 <div className="chat">

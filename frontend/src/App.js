@@ -21,12 +21,6 @@ export default function App() {
     useEffect(() => {
         if (Object.keys(cookies).includes('WhatsUpJWT')) {
             dispatch(LoginAction(cookies.WhatsUpJWT))
-            const url = new URL('http://localhost:9090/.well-known/mercure')
-            url.searchParams.append('topic', 'https://example.com/chat')
-            const eventSource = new EventSource(url, {withCredentials: true})
-            return () => {
-                eventSource.close()
-            }
         }
     }, [])
 

@@ -4,7 +4,6 @@ import {useSelector} from "react-redux";
 import '../style.scss'
 import './contacts.scss'
 import {NavLink} from "react-router-dom";
-import useBackendPing from "../../Hook/useBackendPing";
 
 export default function Contacts() {
     const getUserList = useGetUserList()
@@ -13,29 +12,12 @@ export default function Contacts() {
 
     const [userList, setUserList] = useState(false)
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     const userId = e.target[0].value;
-    //     backendPing(userId).then(data => console.log(data))
-    // }
-
     useEffect(() => {
         if (currentUser) {
             getUserList().then(data => {
                 setUserList(data.users)
             })
         }
-
-        // const url = new URL('http://localhost:9090/.well-known/mercure')
-        // url.searchParams.append('topic','https://example.com/ping')
-        //
-        // const eventSource = new EventSource(url,{withCredentials:true})
-        // eventSource.onmessage = handleMessage
-        //
-        // return () => {
-        //     eventSource.close()
-        // }
-
     }, [currentUser])
 
     return (
