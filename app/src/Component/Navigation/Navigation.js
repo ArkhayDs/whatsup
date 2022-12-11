@@ -16,6 +16,15 @@ export default function Navigation() {
     return (
         <ChatStack.Navigator
             defaultScreenOptions="Conversations"
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: '#346881FF',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                },
+            }}
         >
             <ChatStack.Screen
                 name="Conversations"

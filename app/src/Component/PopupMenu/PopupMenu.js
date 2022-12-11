@@ -47,7 +47,7 @@ export default function PopupMenu({navigation}) {
             <TouchableOpacity onPress={() => {
                 resizeBox(1)
             }}>
-                <Entypo name="dots-three-vertical" size={24} color="black"/>
+                <Entypo name="dots-three-vertical" size={24} color="#fff"/>
             </TouchableOpacity>
             <Modal transparent visible={visible}>
                 <SafeAreaView
@@ -61,7 +61,8 @@ export default function PopupMenu({navigation}) {
                 >
                     <Animated.View
                         style={{
-                            transform: [{scale}]
+                            transformOrigin:"top",
+                            transform: [{scaleX:scale}]
                         }}
                     >
                         {
@@ -71,7 +72,7 @@ export default function PopupMenu({navigation}) {
                                         key={i}
                                         onPress={option.action}
                                         style={{
-                                            backgroundColor: "#e3e3e3",
+                                            backgroundColor: "#346881FF",
                                             flexDirection: 'row',
                                             paddingTop: 5,
                                             paddingBottom: 5,
@@ -84,11 +85,12 @@ export default function PopupMenu({navigation}) {
                                             }}
                                             name={option.icon}
                                             size={20}
-                                            color="black"
+                                            color="#fff"
                                         />
                                         <Text
                                             style={{
                                                 marginLeft: 10,
+                                                color:"#fff",
                                             }}
                                         >
                                             {option.title}
