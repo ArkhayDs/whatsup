@@ -21,6 +21,7 @@
     .contact_button {
       width: 100%;
       transition: .2s ease-out;
+      background: transparent;
 
       &:hover {
         transform: scale(125%);
