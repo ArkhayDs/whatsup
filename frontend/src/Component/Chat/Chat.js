@@ -17,7 +17,6 @@ export default function Chat() {
     const getUserList = useGetUserList()
     const getMessages = useGetMessages()
     const currentUserId = useGetCurrentUserId()
-    const currentUserUsername = useGetCurrentUserUsername()
     const getTopic = useGetTopicFromUsers()
 
     const currentUser = useSelector(store => store.SigninReducer)
@@ -27,6 +26,10 @@ export default function Chat() {
     const [userList, setUserList] = useState(false)
     const [messages, setMessages] = useState([])
     const [newMessage, setNewMessage] = useState('')
+
+    const handleChange = (e) => {
+        setNewMessage(e.target.value)
+    }
 
     useEffect(() => {
         if (currentUser) {
@@ -124,7 +127,7 @@ export default function Chat() {
                                 }
                             </div>
                             <footer className="chat-message">
-                                <span className="input" role="textbox" contentEditable/>
+                                <span className="input" role="textbox" contentEditable onChange={handleChange}/>
                                 <button><MdSend/></button>
                             </footer>
                         </>
