@@ -56,7 +56,7 @@ export default function Chat({route, navigation}) {
 
                         <View style={[styles.chat_message_other_user, styles.chat_message]}>
                             <View>
-                                <Text>other_user</Text>
+                                <Text>{name}</Text>
                                 <Text> </Text>
                             </View>
                             <View>

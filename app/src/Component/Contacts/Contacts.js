@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Pressable, StyleSheet,
     Text,
@@ -10,12 +10,28 @@ import {
 
 import './Contacts_style'
 import global_style from "../style";
+import {useSelector} from "react-redux";
+import useGetUserList from "../../Hook/useGetUserList";
 
 export default function Contacts({navigation}) {
-    const [userList, setUserList] = useState([{id: 1, username: "Francise"}, {id: 2, username: "Beber"}, {
-        id: 3,
-        username: "Paul"
-    }, {id: 5, username: "Mireil"}])
+    // const [userList, setUserList] = useState([{id: 1, username: "Francise"}, {id: 2, username: "Beber"}, {
+    //     id: 3,
+    //     username: "Paul"
+    // }, {id: 5, username: "Mireil"}])
+
+    const [userList, setUserList] = useState(false)
+
+    const getUserList = useGetUserList()
+    // const currentUser = useSelector(store => store.SigninReducer)
+    const currentUser = 'useSelector(store => store.SigninReducer)'
+
+    useEffect(() => {
+        if (currentUser) {
+            getUserList().then(data => {
+                setUserList(data.users)
+            })
+        }
+    }, [currentUser])
 
     return (
         <SafeAreaView style={global_style.sectionContainer}>
@@ -78,7 +94,7 @@ export default function Contacts({navigation}) {
                             })}
                         </View>
                         :
-                        <span className="spinner"> </span>
+                        <Text>Pas de contact</Text>
                     }
                 </View>
             </ScrollView>

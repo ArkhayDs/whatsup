@@ -28,6 +28,13 @@ const global_style = StyleSheet.create({
     arrow_header: {
         marginRight: 25
     },
+    error_message: {
+        backgroundColor: "#B0413E",
+        color: "#F0F2F5",
+        marginBottom: 25,
+        padding: 10,
+        textAlign: "center",
+    }
 })
 
 

@@ -37,7 +37,7 @@ export default function PopupMenu({navigation}) {
         Animated.timing(scale, {
             toValue: to,
             useNativeDriver: true,
-            duration: 100,
+            duration: 200,
             easing: Easing.linear,
         }).start(() => to === 0 && setVisible(false))
     }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     Alert,
     KeyboardAvoidingView,
@@ -12,12 +12,29 @@ import {
     View,
 } from 'react-native';
 import styles from "./authentification_style";
+import {useDispatch} from "react-redux";
+import {LoginAction} from "../../Action/LoginAction";
+import useLogin from "../../Hook/useLogin";
+import SigninReducer from "../../Reducer/SigninReducer";
 
 const SizedBox: React.FC<Props> = ({ height, width }) => {
     return <View style={{ height, width }} />;
 };
 
-export default function Login() {
+export default function Login({navigation}) {
+    const dispatch = useDispatch();
+
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+
+    const login = useLogin()
+
+    const submit = (e) => {
+        login(username,password)
+            .then(res => dispatch(LoginAction(res.jwt)))
+            .then(() => navigation.navigate("Conversations"))
+    }
+
     return (
         <View style={styles.root}>
             <SafeAreaView style={styles.safeAreaView}>
@@ -34,16 +51,17 @@ export default function Login() {
 
                     <Pressable>
                         <View style={styles.form}>
-                            <Text style={styles.label}>Mail</Text>
+                            <Text style={styles.label}>Nom</Text>
 
                             <TextInput
                                 autoCapitalize="none"
-                                autoCompleteType="email"
+                                autoCompleteType="text"
                                 autoCorrect={false}
-                                keyboardType="email-address"
+                                keyboardType="text"
                                 returnKeyType="next"
                                 style={styles.textInput}
                                 textContentType="username"
+                                onChangeText={setUsername}
                             />
                         </View>
                     </Pressable>
@@ -62,6 +80,7 @@ export default function Login() {
                                 secureTextEntry
                                 style={styles.textInput}
                                 textContentType="password"
+                                onChangeText={setPassword}
                             />
                         </View>
                     </Pressable>
@@ -74,7 +93,9 @@ export default function Login() {
 
                     <SizedBox height={16} />
 
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={(e) => submit(e)}
+                    >
                         <View style={styles.button}>
                             <Text style={styles.buttonTitle}>Se connecter</Text>
                         </View>

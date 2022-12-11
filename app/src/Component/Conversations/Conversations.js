@@ -13,6 +13,8 @@ import global_style from "../style";
 import style from "../style";
 import {Menu, MenuOption, MenuOptions, MenuProvider, MenuTrigger} from "react-native-popup-menu";
 import PopupMenu from "../PopupMenu/PopupMenu";
+import {Store} from "../../Store/Store";
+import SigninReducer from "../../Reducer/SigninReducer";
 
 export default function Conversations({navigation}) {
     const [convList, setConvList] = useState([{id: 1, username: "Francise"}, {id: 2, username: "Beber"}, {
