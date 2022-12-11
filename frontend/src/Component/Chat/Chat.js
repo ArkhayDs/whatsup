@@ -14,6 +14,7 @@ import useGetTopicFromUsers from "../../Hook/useGetTopicFromUsers";
 import {ChatAction} from "../../Action/ChatAction";
 import ChatMessages from "./SousComonent/ChatMessage";
 import UserList from "./SousComonent/UserList";
+import {FaSmileBeam} from "react-icons/fa";
 
 export default function Chat() {
     const dispatch = useDispatch()
@@ -81,11 +82,12 @@ export default function Chat() {
                             </footer>
                         </>
                         :
-                        <div className="chat-history">
-                            <p>
-                                Reprends une conversation via la liste à gauche ou lances-en une nouvelle depuis ta liste
-                                de contacts !
-                            </p>
+                        <div className="chat-nohistory">
+                            <FaSmileBeam size={150} />
+                            <h3>
+                                Reprends une conversation via la liste à gauche <br/><br/>
+                                ou lances-en une nouvelle depuis ta liste de contacts !
+                            </h3>
                         </div>
                     }
                 </div>

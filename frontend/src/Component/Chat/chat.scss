@@ -19,6 +19,7 @@
     flex-direction: column;
     border-right: 1px solid;
 
+
     .contact-header {
       display: flex;
       align-items: center;
@@ -41,6 +42,9 @@
 
       li {
         margin-bottom: 20px;
+      }
+      a:hover {
+        cursor: pointer;
       }
 
     }
@@ -76,6 +80,19 @@
         color: #8AB8D0;
         font-size: 18px;
       }
+      .chat-num-messages:hover {
+        cursor: pointer;
+      }
+    }
+    .chat-nohistory {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      text-align: center;
+      gap: 50px;
     }
 
     .chat-history {
