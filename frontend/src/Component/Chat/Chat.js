@@ -40,6 +40,9 @@ export default function Chat() {
         setNewMessage(e.target.value)
     }
 
+    const chat_message_scroll = document.getElementById("chat_message_scroll");
+
+
     const handleSubmit = (e) => {
         e.preventDefault()
         setMessages(prev => [
@@ -58,6 +61,12 @@ export default function Chat() {
     }
 
     useEffect(() => {
+        chat_message_scroll.scrollTop = chat_message_scroll.scrollHeight
+    }, [messages])
+
+
+    useEffect(() => {
+        chat_message_scroll.scrollTop = chat_message_scroll.scrollHeight
         if (currentUser) {
             getUserList().then(data => {
                 setUserList(data.users)
@@ -95,7 +104,7 @@ export default function Chat() {
                                 <h2 className="chat-with">Discussion avec {otherUser.username}</h2>
                                 <p className="chat-num-messages">{messages.length} messages</p>
                             </header>
-                            <div className="chat-history">
+                            <div id="chat_message_scroll" className="chat-history">
                                 <ChatMessages messages={messages} currentUserId={currentUserId}/>
                             </div>
                             <footer className="chat-message">
