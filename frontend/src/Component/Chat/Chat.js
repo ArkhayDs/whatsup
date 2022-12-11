@@ -61,12 +61,17 @@ export default function Chat() {
     }
 
     useEffect(() => {
-        chat_message_scroll.scrollTop = chat_message_scroll.scrollHeight
+        if (chat_message_scroll) {
+            chat_message_scroll.scrollTop = chat_message_scroll.scrollHeight
+        }
     }, [messages])
 
 
     useEffect(() => {
-        chat_message_scroll.scrollTop = chat_message_scroll.scrollHeight
+        if (chat_message_scroll) {
+            chat_message_scroll.scrollTop = chat_message_scroll.scrollHeight
+        }
+        
         if (currentUser) {
             getUserList().then(data => {
                 setUserList(data.users)
