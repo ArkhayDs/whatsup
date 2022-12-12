@@ -1,4 +1,5 @@
 import {AxiosInstance} from "../Axios/AxiosInstance";
+import qs from 'qs';
 
 export default function useLogin() {
     return (username, password) => {
@@ -8,7 +9,7 @@ export default function useLogin() {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            data: new URLSearchParams({
+            data: qs.stringify({
                 username: username,
                 password: password
             })

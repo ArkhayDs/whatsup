@@ -38,10 +38,10 @@ export default function Register({navigation}) {
 
         register(username, password, password2)
             .then(res => {
-                setStatus(res.status)
-                switch (status) {
+                switch (res.status) {
                     case 200:
                         dispatch(LoginAction(res.jwt))
+                        localStorage.setItem("WhatsUpJWT",res.jwt)
                         navigation.navigate("Conversations")
                         break
                     case 422:

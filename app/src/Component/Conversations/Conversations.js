@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Pressable, StyleSheet,
     Text,
@@ -28,6 +28,12 @@ export default function Conversations({navigation}) {
             <PopupMenu navigation={navigation}/>
         ),
     })
+
+    useEffect( () => {
+        if (!localStorage.getItem("WhatsUpJWT")) {
+            navigation.navigate("Authentification")
+        }
+    },[])
 
     return (
         <SafeAreaView style={global_style.sectionContainer}>

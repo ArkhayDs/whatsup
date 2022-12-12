@@ -3,6 +3,7 @@ import {useSelector} from "react-redux";
 
 export default function useGetUserList() {
     const currentUser = useSelector(store => store.SigninReducer)
+    console.log(currentUser)
 
     return () => {
         return AxiosInstance({
@@ -13,5 +14,6 @@ export default function useGetUserList() {
             }
         })
             .then(res => res.data)
+            .catch(error => console.log(error.request))
     }
 }

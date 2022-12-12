@@ -27,7 +27,11 @@ export default function PopupMenu({navigation}) {
         },
         {
             title: 'Déconnexion',
-            action: () => console.log('Déconnexion'),
+            action: () => {
+                localStorage.removeItem('WhatsUpJWT')
+                console.log(localStorage.getItem("WhatsUpJWT"))
+                navigation.navigate('Authentification')
+            },
             icon: 'logout'
         },
     ]

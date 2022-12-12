@@ -8,7 +8,7 @@ import Login from "./Login";
 import Register from "./Register";
 
 
-export default function Authentification() {
+export default function Authentification({navigation}) {
     const [login, setLogin] = useState(true)
 
     return (
@@ -17,7 +17,7 @@ export default function Authentification() {
                 <TouchableOpacity onPress={() => setLogin( true)} className={login? 'active': ''}><Text>Se connecter</Text></TouchableOpacity>
                 <TouchableOpacity onPress={() => setLogin( false)} className={login? '': 'active'}><Text>S'inscrire</Text></TouchableOpacity>
             </View>
-            {login ? <Login/> : <Register/>}
+            {login ? <Login navigation={navigation}/> : <Register navigation={navigation}/>}
         </View>
     )
 }

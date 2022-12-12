@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Alert,
     KeyboardAvoidingView,
@@ -15,7 +15,7 @@ import styles from "./authentification_style";
 import {useDispatch} from "react-redux";
 import {LoginAction} from "../../Action/LoginAction";
 import useLogin from "../../Hook/useLogin";
-import SigninReducer from "../../Reducer/SigninReducer";
+import 'localstorage-polyfill';
 
 const SizedBox: React.FC<Props> = ({ height, width }) => {
     return <View style={{ height, width }} />;
@@ -32,10 +32,10 @@ export default function Login({navigation}) {
     const submit = (e) => {
         login(username,password)
             .then(res => {
-                console.log("res :",res)
-                // dispatch(LoginAction(res.jwt))
+                dispatch(LoginAction(res.jwt))
+                localStorage.setItem("WhatsUpJWT",res.jwt)
             })
-            // .then(() => navigation.navigate("Conversations"))
+            .then(() => navigation.navigate("Conversations"))
     }
 
     return (
