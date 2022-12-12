@@ -17,7 +17,6 @@ export default function Register() {
     const [password, setPassword] = useState('')
     const [password2, setPassword2] = useState('')
     const [error, setError] = useState(false)
-    const [status, setStatus] = useState(false)
     const [message, setMessage] = useState('')
     const [loding, setLoding] = useState(false)
 
@@ -29,8 +28,7 @@ export default function Register() {
 
         register(username,password,password2)
             .then(res => {
-                setStatus(res.status)
-                switch (status) {
+                switch (res.status) {
                     case 200:
                         dispatch(LoginAction(res.jwt))
                         navigate(from, {replace: true})

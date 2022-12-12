@@ -3,7 +3,7 @@ import './chat-dark.scss'
 import '../style.scss'
 
 import {MdOutlineArrowBackIosNew, MdSend} from 'react-icons/md';
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import useGetUserList from "../../Hook/useGetUserList";
@@ -19,6 +19,7 @@ import usePersistMessage from "../../Hook/usePersistMessage";
 
 export default function Chat() {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const getUserList = useGetUserList()
     const getMessages = useGetMessages()
@@ -36,7 +37,7 @@ export default function Chat() {
     const currentUsername = useGetCurrentUserUsername(currentUser)
 
     const [userList, setUserList] = useState(false)
-    const [messages, setMessages] = useState(false)
+    const [messages, setMessages] = useState([])
     const [newMessage, setNewMessage] = useState('')
 
     const handleChange = (e) => {
@@ -45,36 +46,23 @@ export default function Chat() {
 
     const chat_message_scroll = document.getElementById("chat_message_scroll");
 
-
     const handleSubmit = (e) => {
         e.preventDefault()
         let topic = getTopic(currentUserId, otherUser.id)
         let date = new Date()
 
-        if (messages.length >= 1) {
-            setMessages(prev => [
-                ...prev,
-                {
-                    content: newMessage,
-                    createdAt: date,
-                    author: {
-                        id: currentUserId,
-                        username: currentUsername
-                    }
+        console.log('submit :',messages)
+        setMessages(prev => [
+            ...prev,
+            {
+                content: newMessage,
+                createdAt: date,
+                author: {
+                    id: currentUserId,
+                    username: currentUsername
                 }
-            ])
-        } else {
-            setMessages([
-                {
-                    content: newMessage,
-                    createdAt: date,
-                    author: {
-                        id: currentUserId,
-                        username: currentUsername
-                    }
-                }
-            ])
-        }
+            }
+        ])
 
         sendMessage(topic, newMessage, otherUser.id)
         persistMessage(topic, newMessage, date)
@@ -83,31 +71,18 @@ export default function Chat() {
 
     const handleMessage = (e) => {
         let data = JSON.parse(e.data)
-
-        if(messages !== false) {
-            setMessages(prev => [
-                ...prev,
-                {
-                    content: data.content,
-                    createdAt: new Date(),
-                    author: {
-                        id: data.author.id,
-                        username: data.author.username
-                    }
+        console.log('mercure :',messages)
+        setMessages(prev => [
+            ...prev,
+            {
+                content: data.content,
+                createdAt: new Date(),
+                author: {
+                    id: data.author.id,
+                    username: data.author.username
                 }
-            ])
-        } else {
-            setMessages([
-                {
-                    content: data.content,
-                    createdAt: new Date(),
-                    author: {
-                        id: data.author.id,
-                        username: data.author.username
-                    }
-                }
-            ])
-        }
+            }
+        ])
     }
 
     useEffect( () => {
@@ -144,7 +119,7 @@ export default function Chat() {
                     if (data.chat !== null) {
                         setMessages(data.chat.messages)
                     } else {
-                        setMessages(false)
+                        setMessages([])
                     }
                 })
         }

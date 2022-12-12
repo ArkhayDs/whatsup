@@ -2,7 +2,7 @@ export default function ChatMessages({messages, currentUserId}) {
     return (
         <>
             {
-                messages ?
+                messages.length > 0 ?
                     <ul>
                         {messages.map((message,i) => {
                             let datetime = new Date(message.createdAt)
