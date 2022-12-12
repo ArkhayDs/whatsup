@@ -51,17 +51,31 @@ export default function Chat() {
         let topic = getTopic(currentUserId, otherUser.id)
         let date = new Date()
 
-        setMessages(prev => [
-            ...prev,
-            {
-                content: newMessage,
-                createdAt: date,
-                author: {
-                    id: currentUserId,
-                    username: currentUsername
+        if (messages.length >= 1) {
+            setMessages(prev => [
+                ...prev,
+                {
+                    content: newMessage,
+                    createdAt: date,
+                    author: {
+                        id: currentUserId,
+                        username: currentUsername
+                    }
                 }
-            }
-        ])
+            ])
+        } else {
+            setMessages([
+                {
+                    content: newMessage,
+                    createdAt: date,
+                    author: {
+                        id: currentUserId,
+                        username: currentUsername
+                    }
+                }
+            ])
+        }
+
         sendMessage(topic, newMessage, otherUser.id)
         persistMessage(topic, newMessage, date)
         setNewMessage('')
@@ -70,17 +84,30 @@ export default function Chat() {
     const handleMessage = (e) => {
         let data = JSON.parse(e.data)
 
-        setMessages(prev => [
-            ...prev,
-            {
-                content: data.content,
-                createdAt: new Date(),
-                author: {
-                    id: data.author.id,
-                    username: data.author.username
+        if(messages !== false) {
+            setMessages(prev => [
+                ...prev,
+                {
+                    content: data.content,
+                    createdAt: new Date(),
+                    author: {
+                        id: data.author.id,
+                        username: data.author.username
+                    }
                 }
-            }
-        ])
+            ])
+        } else {
+            setMessages([
+                {
+                    content: data.content,
+                    createdAt: new Date(),
+                    author: {
+                        id: data.author.id,
+                        username: data.author.username
+                    }
+                }
+            ])
+        }
     }
 
     useEffect( () => {

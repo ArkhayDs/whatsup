@@ -37,7 +37,8 @@ class UserController extends AbstractController
         return $this->json(
             [
                 'message' => 'Connexion réussie, bonjour ' . $user->getUsername() . '!',
-                'jwt' => $JWTHelper->createJWT($user)
+                'jwt' => $JWTHelper->createJWT($user),
+                'status'=> 200
             ],
             200,
             ['set-cookie' => [$cookieHelper->buildCookie($user),$cookieHelper->buildMercureCookie($user)]]
@@ -76,7 +77,8 @@ class UserController extends AbstractController
             return $this->json(
                 [
                     'message' => 'Inscription réussie, bonjour ' . $user->getUsername() . '!',
-                    'jwt' => $JWTHelper->createJWT($user)
+                    'jwt' => $JWTHelper->createJWT($user),
+                    'status'=> 200
                 ],
                 200,
                 ['set-cookie' => [$cookieHelper->buildCookie($user),$cookieHelper->buildMercureCookie($user)]]
@@ -85,35 +87,6 @@ class UserController extends AbstractController
         return $this->json([
             'message' => 'Echec de l\'inscription, les mots de passes ne correspondent pas !',
             'status' => 422
-        ]);
-    }
-
-    #[Route('/test', name: 'app_test')]
-    #[IsGranted('ROLE_USER')]
-    public function test(Request $request): JsonResponse
-    {
-        return $this->json([
-            'headers' => getallheaders()["Authorization"]
-        ]);
-    }
-
-    #[Route('/new-user/{username}-{password}', name: 'app_create_user')]
-    public function createUser(string                      $username,
-                               string                      $password,
-                               UserPasswordHasherInterface $hasher,
-                               EntityManagerInterface      $entityManager): JsonResponse
-    {
-        $user = new User();
-        $user->setUsername($username)
-            ->setPassword($hasher->hashPassword($user, $password));
-
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        return $this->json([
-            'message' => 'New user created',
-            'username' => $username,
-            'password' => $password
         ]);
     }
 }
