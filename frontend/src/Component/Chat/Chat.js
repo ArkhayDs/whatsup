@@ -150,10 +150,10 @@ export default function Chat() {
                             <div id="chat_message_scroll" className="chat-history">
                                 <ChatMessages messages={messages} currentUserId={currentUserId}/>
                             </div>
-                            <footer className="chat-message">
+                            <form className="chat-message">
                                 <input className="input" role="textbox" contentEditable onChange={handleChange} value={newMessage}/>
-                                <button onClick={handleSubmit}><MdSend/></button>
-                            </footer>
+                                <button type="submit" onClick={handleSubmit}><MdSend/></button>
+                            </form>
                         </>
                         :
                         <div className="chat-nohistory">

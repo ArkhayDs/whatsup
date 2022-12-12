@@ -15,7 +15,7 @@ const ChatStack = createNativeStackNavigator();
 export default function Navigation() {
     return (
         <ChatStack.Navigator
-            defaultScreenOptions="Conversations"
+            defaultScreenOptions="Authentification"
             screenOptions={{
                 headerStyle: {
                     backgroundColor: '#346881FF',

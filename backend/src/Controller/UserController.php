@@ -89,4 +89,12 @@ class UserController extends AbstractController
             'status' => 422
         ]);
     }
+
+    #[Route('/test', name: 'app_test')]
+    public function test(Request $request)
+    {
+        return $this->json([
+            'message' => $request->headers->get('User-Agent')
+        ]);
+    }
 }

@@ -13,7 +13,6 @@ import useGetCookies from "./Hook/useGetCookies";
 import {useEffect} from "react";
 import {LoginAction} from "./Action/LoginAction";
 import Qrcode from "./Component/QrCode/Qrcode";
-import {MercureAction} from "./Action/MercureAction";
 
 export default function App() {
     const dark = useSelector(store => store.DarkModeReducer)
